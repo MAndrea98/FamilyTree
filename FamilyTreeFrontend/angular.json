@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "FamilyTreeFrontend"
+    }
+  },
+  "defaultProject": "FamilyTreeFrontend",
+  "cli": {
+    "analytics": "875b9b7e-ab4b-4d92-970f-8be8a8e6aef9"
+  }
 }
