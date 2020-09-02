@@ -1,7 +1,4 @@
 body{
-	margin:0;
-	color:#6a6f8c;
-	background:#c8c8c8;
 	font:600 16px/18px 'Open Sans',sans-serif;
 }
 *,:after,:before{box-sizing:border-box}
@@ -11,6 +8,12 @@ a{color:white;text-decoration:none}
 
 a:hover {
     color:#1161ee;
+}
+
+h1 {
+	text-align:center;
+	font-family:"Bickley Script", cursive, serif;
+	color: white;
 }
 
 .login-wrap{

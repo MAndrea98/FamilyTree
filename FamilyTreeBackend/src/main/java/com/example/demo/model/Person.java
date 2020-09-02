@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,10 +34,10 @@ public class Person {
 	private Gender gender;
 	
 	@Column(name = "date_of_bith", nullable = false)
-	private Calendar dateOfBirth;
+	private Date dateOfBirth;
 	
 	@Column(name = "date_of_death")
-	private Calendar dateOfDeath;
+	private Date dateOfDeath;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Person father;
@@ -98,19 +98,19 @@ public class Person {
 		this.gender = gender;
 	}
 
-	public Calendar getDateOfBirth() {
+	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(Calendar dateOfBirth) {
+	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public Calendar getDateOfDeath() {
+	public Date getDateOfDeath() {
 		return dateOfDeath;
 	}
 
-	public void setDateOfDeath(Calendar dateOfDeath) {
+	public void setDateOfDeath(Date dateOfDeath) {
 		this.dateOfDeath = dateOfDeath;
 	}
 
