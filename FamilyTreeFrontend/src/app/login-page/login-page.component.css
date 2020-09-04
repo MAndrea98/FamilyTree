@@ -7,7 +7,7 @@ body{
 a{color:white;text-decoration:none}
 
 a:hover {
-    color:#1161ee;
+    color:darkturquoise;
 }
 
 h1 {
@@ -93,7 +93,8 @@ h1 {
 	border:none;
 	padding:15px 20px;
 	border-radius:25px;
-	background:rgba(255,255,255,.6);
+	background:rgba(255,255,255,.8);
+	color: purple;
 }
 .login-form .group input[data-type="password"]{
 	-webkit-text-security:circle;
@@ -103,7 +104,7 @@ h1 {
 	font-size:12px;
 }
 .login-form .group .button{
-	background:#1161ee;
+	background:darkturquoise;
 }
 .login-form .group label .icon{
 	width:15px;
