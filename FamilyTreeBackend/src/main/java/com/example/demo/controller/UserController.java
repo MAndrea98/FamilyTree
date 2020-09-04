@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,5 +44,14 @@ public class UserController {
 	public ResponseEntity<UserDTO> logout(@RequestBody UserDTO userDTO) {
 		userService.logout(userDTO);
 		return new ResponseEntity<UserDTO>(HttpStatus.OK);
+	}
+	
+	@PutMapping("/change/{oldPassword}")
+	public ResponseEntity<UserDTO> changeData(@RequestBody UserDTO userDTO, 
+											  @PathVariable("oldPassword") String oldPassword) {
+		System.out.println("#####" + userDTO + "###" + oldPassword);
+		User u = userService.changeData(userDTO, oldPassword);
+		System.out.println(u);
+		return new ResponseEntity<UserDTO>(new UserDTO(u), HttpStatus.OK);
 	}
 }

@@ -1,1 +1,72 @@
-<a [routerLink]="" (click)="logout();">Logout</a>
+
+    <!-- Top container -->
+    <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+      <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey">
+          <i class="fa fa-logout"></i>  Menu
+      </button>
+      <a (click)="logout();" class="tooltip w3-bar-item w3-right">
+        <span class="tooltiptext">Logout   </span>
+        <i class="fas fa-sign-out-alt"></i>
+      </a>
+    </div>
+    
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;padding-top:1%;" id="mySidebar"><br>
+      <div class="w3-container w3-row">
+        <div class="w3-col s4">
+            <img src="../../assets/images/logo.jpg" class="w3-circle w3-margin-right" style="width:70px">
+        </div>
+        <div class="w3-col s8 w3-bar">
+            <span>Welcome, <strong>@{{user.username}}</strong></span><br>
+        </div>
+      </div>
+      <hr>
+      <div class="w3-container">
+        <h5>Dashboard</h5>
+      </div>
+      <div class="w3-bar-block full-height">
+        <a class="w3-bar-item w3-button w3-padding w3-animate-left" (click)="home();"><i class="fa fa-home fa-fw"></i>  Home</a>
+        <a class="w3-bar-item w3-button w3-padding w3-animate-left"><i class="fas fa-sitemap"></i>  Switch family tree</a>
+        <a class="w3-bar-item w3-button w3-padding w3-animate-left"><i class="fa fa-child fa-fw"></i>  Add new child</a>
+        <a class="w3-bar-item w3-button w3-padding w3-animate-left"><i class="fas fa-user-friends"></i>  Add new sibling</a>
+        <a class="w3-bar-item w3-button w3-padding w3-animate-left"><i class="fa fa-venus-mars fa-fw"></i>  Add new spouse</a>
+        <a class="w3-bar-item w3-button w3-padding w3-animate-left"><i class="fa fa-users fa-fw"></i>  Add new parent</a>
+      </div>
+      <hr>
+      <div class="w3-bar-block">
+        <a class="w3-bar-item w3-button w3-padding w3-animate-left" (click)="settings();"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
+      </div>
+    </nav>
+    
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main full-height" style="margin-left:300px;">
+      <div class="w3-panel" style="padding-top:5%">
+        <div id="userProfile" [hidden] = "userProfileHidden" class="w3-animate-right">
+          <div class="w3-container w3-green">
+            <h3>Change datas</h3>
+          </div>
+          <br>
+          <form class="w3-container">
+            <label><b>Username</b></label>
+            <input class="w3-input w3-border w3-light-grey" type="text" value="{{this.user.username}}" disabled #username>
+            <br/>
+            <label><b>Old password</b></label>
+            <input class="w3-input w3-border w3-light-grey" type="password" #oldPassword>
+            <br/>
+            <label><b>New password</b></label>
+            <input class="w3-input w3-border w3-light-grey" type="password" #newPassword>
+            <br/>
+            <label><b>Repeat password</b></label>
+            <input class="w3-input w3-border w3-light-grey" type="password" #repeatPassword>
+            <br/>
+            <label><b>Email</b></label>
+            <input class="w3-input w3-border w3-light-grey" type="text" value="{{this.user.email}}" #email>
+            <br/>
+            <a class="btn w3-btn w3-teal" (click)="change();">Change</a>
+          </form>
+        </div>
+      </div>
+    </div>
+
+   
+    

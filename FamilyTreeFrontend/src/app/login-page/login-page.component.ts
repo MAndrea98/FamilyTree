@@ -49,9 +49,9 @@ export class LoginPageComponent implements OnInit {
     this.user.username = this.usern.nativeElement.value;
     this.user.password = this.pass.nativeElement.value;
     this.service.login(this.user).subscribe(
-      res=> {
+      (res:User)=> {
         this.home();
-        localStorage.setItem('user', JSON.stringify(this.user));
+        localStorage.setItem('user', JSON.stringify(res));
         location.href = "workspace";
       },
       err=> {
@@ -76,7 +76,7 @@ export class LoginPageComponent implements OnInit {
       err=> {
         alert('Something went wrong');
         this.home1();
-        if (!this.user.email.includes("@")) {
+        if (!this.user.email.includes("@") || !this.user.email.includes(".")) {
           this.email.nativeElement.style.background = "rgba(255,0,0,.6)";
           setTimeout(() => {
             this.email.nativeElement.style.background = "rgba(255,255,255,.6)";
