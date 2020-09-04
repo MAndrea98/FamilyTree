@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~10.0.0",
+    "@angular/cdk": "^10.2.0",
     "@angular/common": "~10.0.0",
     "@angular/compiler": "~10.0.0",
     "@angular/core": "~10.0.0",
@@ -21,6 +22,9 @@
     "@angular/router": "~10.0.0",
     "@syncfusion/ej2-angular-diagrams": "^18.2.55",
     "@syncfusion/ej2-data": "^18.2.54",
+    "angular-bootstrap-md": "^9.4.0",
+    "bootstrap": "^4.5.2",
+    "ngx-bootstrap": "^6.1.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

@@ -1,1 +1,71 @@
-<a [routerLink]="" (click)="logout();">Logout</a>
+<div class="container">
+    <div class="classA">
+        <div class="form">
+            <form>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" required>
+              </div>
+      
+              <div class="form-group">
+                <label for="alterEgo">Alter Ego</label>
+                <input type="text" class="form-control" id="alterEgo">
+              </div>
+      
+              <div class="form-group">
+                <label for="power">Hero Power</label>
+                <select class="form-control" id="power" required>
+                </select>
+              </div>
+              
+              <div class="col-md-12 my-10">
+                <button type="button" class="btn btn-hover btn-hover-success btn-rounded">Success</button>
+                <button type="button" class="btn btn-hover btn-hover-danger  btn-rounded">Danger</button>
+   
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="classB">
+        <div class="div-logout">
+            <a href="#" class="btn btn-info btn-lg">
+                <span class="glyphicon glyphicon-log-out"></span> Log out
+            </a>
+        </div>
+        <div class="div-main">Main</div>
+        <div class="div-datas">
+            <table class="table table-striped table-responsive-md btn-table">
+
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                  </tr>
+                </thead>
+            
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>
+                       Cat
+                    </td>
+                    <td>Otto</td>
+                    <td> <button type="button" class="btn btn-hover btn-hover-default btn-rounded">Default</button></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>
+                        Dog
+                    </td>
+                    <td> <button type="button" class="btn btn-hover btn-hover-default btn-rounded">Default</button></td>
+                  </tr>
+                </tbody>
+            
+              </table>
+            
+        </div>
+    </div>
+</div>

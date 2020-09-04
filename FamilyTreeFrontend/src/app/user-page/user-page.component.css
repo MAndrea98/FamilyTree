@@ -1,0 +1,87 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    overflow: hidden;
+    height: 100vh;
+    min-width: 100%;
+}
+
+.classA {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 100%;
+    background-color: khaki;
+}
+.classB {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    height: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
+} 
+.div-logout{
+    width: 100%;
+    max-height: 7%;
+    background-color: white;
+    text-align: right;
+}
+.div-main {
+    display: flex;
+    background-color: indigo;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    min-height: 65%;
+    max-height: 65%;
+}
+.div-datas {
+    display: flex;
+    background-color: lightgreen;
+    max-height: 35%;
+    min-height: 35%;
+}
+
+.btn-hover {
+    background-color: transparent !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid transparent !important;
+    background-image: none; 
+}
+  
+.btn-hover-success {
+    color: #00C851 !important; 
+}
+
+.btn-hover-success:hover {
+    color: #fff !important;
+    background-color: #00C851 !important;
+    border-color: #00C851 !important; 
+}
+
+.btn-hover-danger {
+    color: #FF3547 !important; 
+}
+
+.btn-hover-danger:hover {
+    color: #fff !important;
+    background-color: #FF3547 !important;
+    border-color: #FF3547 !important; 
+}
+
+.btn-hover-default {
+    color: #2BBBAD !important; 
+}
+.btn-hover-default:hover {
+    color: #fff !important;
+    background-color: #2BBBAD !important;
+    border-color: #2BBBAD !important; 
+}
+  
