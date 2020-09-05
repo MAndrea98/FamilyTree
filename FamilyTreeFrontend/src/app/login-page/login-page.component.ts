@@ -70,7 +70,8 @@ export class LoginPageComponent implements OnInit {
     this.user.email = this.email.nativeElement.value;
     this.service.registration(this.user).subscribe(
       res=> {
-        alert('Registred');
+        const element = document.getElementById('id01');
+        element.style.display = 'block';
         this.home();
       },
       err=> {

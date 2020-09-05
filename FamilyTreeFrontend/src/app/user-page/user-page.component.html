@@ -34,33 +34,33 @@
       </div>
       <hr>
       <div class="w3-bar-block">
-        <a class="w3-bar-item w3-button w3-padding w3-animate-left" (click)="settings();"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
+        <a class="w3-bar-item w3-button w3-padding w3-animate-left" (click)="settings();"><i class="fa fa-pencil-alt fa-fw"></i>  Change my datas</a><br><br>
       </div>
     </nav>
     
     <!-- !PAGE CONTENT! -->
     <div class="w3-main full-height" style="margin-left:300px;">
       <div class="w3-panel" style="padding-top:5%">
-        <div id="userProfile" [hidden] = "userProfileHidden" class="w3-animate-right">
+        <div id="userProfile" class="w3-animate-right" [hidden]="userProfileHidden">
           <div class="w3-container w3-green">
-            <h3>Change datas</h3>
+            <h6>Change datas</h6>
           </div>
           <br>
           <form class="w3-container">
             <label><b>Username</b></label>
-            <input class="w3-input w3-border w3-light-grey" type="text" value="{{this.user.username}}" disabled #username>
+            <input class="w3-input" type="text" value="{{this.user.username}}" disabled #username>
             <br/>
             <label><b>Old password</b></label>
-            <input class="w3-input w3-border w3-light-grey" type="password" #oldPassword>
+            <input class="w3-input" type="password" #oldPassword>
             <br/>
             <label><b>New password</b></label>
-            <input class="w3-input w3-border w3-light-grey" type="password" #newPassword>
+            <input class="w3-input" type="password" #newPassword>
             <br/>
             <label><b>Repeat password</b></label>
-            <input class="w3-input w3-border w3-light-grey" type="password" #repeatPassword>
+            <input class="w3-input" type="password" #repeatPassword>
             <br/>
             <label><b>Email</b></label>
-            <input class="w3-input w3-border w3-light-grey" type="text" value="{{this.user.email}}" #email>
+            <input class="w3-input" type="text" value="{{this.user.email}}" #email>
             <br/>
             <a class="btn w3-btn w3-teal" (click)="change();">Change</a>
           </form>
