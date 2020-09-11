@@ -70,7 +70,7 @@ export class LoginPageComponent implements OnInit {
     this.user.email = this.email.nativeElement.value;
     this.service.registration(this.user).subscribe(
       res=> {
-        const element = document.getElementById('id01');
+        const element = document.getElementById('modal');
         element.style.display = 'block';
         this.home();
       },
@@ -79,16 +79,22 @@ export class LoginPageComponent implements OnInit {
         this.home1();
         if (!this.user.email.includes("@") || !this.user.email.includes(".")) {
           this.email.nativeElement.style.background = "rgba(255,0,0,.6)";
+          this.email.nativeElement.style.color = "rgba(255,255,255,1)";
           setTimeout(() => {
             this.email.nativeElement.style.background = "rgba(255,255,255,.6)";
+            this.email.nativeElement.style.color = "rgba(0,0,0,1)";
           }, 2000);
         }
         if (this.user.password != this.user.repeatPassword) {
           this.password.nativeElement.style.background = "rgba(255,0,0,.6)";
+          this.password.nativeElement.style.color = "rgba(255,255,255,1)";
           this.repeat.nativeElement.style.background = "rgba(255,0,0,.6)";
+          this.repeat.nativeElement.style.color = "rgba(255,255,255,1)";
           setTimeout(() => {
             this.repeat.nativeElement.style.background = "rgba(255,255,255,.6)";
             this.password.nativeElement.style.background = "rgba(255,255,255,.6)";
+            this.repeat.nativeElement.style.color = "rgba(0,0,0,1)";
+            this.password.nativeElement.style.color = "rgba(0,0,0,1)";
           }, 2000);
         }
       }

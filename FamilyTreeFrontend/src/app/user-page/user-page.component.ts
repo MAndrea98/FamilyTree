@@ -19,19 +19,28 @@ export class UserPageComponent implements OnInit {
 
   user: User;
   userProfileHidden: Boolean = true;
+  treeHidden: Boolean = true;
+  homeHidden: Boolean = true;
 
   ngOnInit(): void {
     if (localStorage.getItem('user')==null) {
-      alert('Illegal path');
       location.href="";
     }
     var retrievedObject = localStorage.getItem('user');
     this.user = JSON.parse(retrievedObject);
     this.userProfileHidden = true;
+    this.homeHidden = false;
+  }
+
+  hiddenAll(): void {
+    this.userProfileHidden = true;
+    this.treeHidden = true;
+    this.homeHidden = true;
   }
 
   home(): void {
-    this.userProfileHidden = true;
+    this.hiddenAll();
+    this.homeHidden = false;
   }
 
   logout(): void {
@@ -54,7 +63,13 @@ export class UserPageComponent implements OnInit {
     u.password = this.newPassword.nativeElement.value;
     u.repeatPassword = this.repeatPassword.nativeElement.value;
     u.email = this.email.nativeElement.value;
-    var oldPas: string = this.oldPassword.nativeElement.value
+    var oldPas: string = this.oldPassword.nativeElement.value;
+    if (oldPas == '' && u.password == '' && u.repeatPassword == '') {
+      u.password = this.user.password;
+      u.repeatPassword = this.user.password;
+      oldPas = this.user.password;
+    }
+    
     this.service.changeDate(u, oldPas).subscribe(
       (res: User)=> {
         localStorage.setItem('user', JSON.stringify(res));
@@ -62,6 +77,8 @@ export class UserPageComponent implements OnInit {
         this.newPassword.nativeElement.value = "";
         this.repeatPassword.nativeElement.value = "";
         this.oldPassword.nativeElement.value = "";
+        const element = document.getElementById('modal');
+        element.style.display = 'block';
         this.home();
       },
       err=> {
@@ -72,7 +89,13 @@ export class UserPageComponent implements OnInit {
   }
 
   settings(): void {
+    this.hiddenAll();
     this.userProfileHidden = false;
+  }
+
+  trees(): void {
+    this.hiddenAll();
+    this.treeHidden = false;
   }
 
 }

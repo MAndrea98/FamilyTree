@@ -73,7 +73,6 @@ public class UserService {
 		if(user.getFamilyTrees()==null)
 			user.setFamilyTrees(new ArrayList<FamilyTree>());
 		User u = userRepository.save(user);
-		System.out.println("####" + u);
 		return u;
 	}
 	

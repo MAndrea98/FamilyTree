@@ -19,6 +19,9 @@ public class FamilyTree {
 	@Column(name = "name")
 	private String name;
 	
+	@Column(name = "description")
+	private String description;
+	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Person member;
 	
@@ -46,6 +49,14 @@ public class FamilyTree {
 		this.name = name;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public Person getMember() {
 		return member;
 	}
@@ -64,7 +75,8 @@ public class FamilyTree {
 
 	@Override
 	public String toString() {
-		return "FamilyTree [id=" + id + ", name=" + name + ", member=" + member + ", user=" + user + "]";
+		return "FamilyTree [id=" + id + ", name=" + name + ", description=" + description + ", member=" + member
+				+ ", user=" + user + "]";
 	}
 	
 	

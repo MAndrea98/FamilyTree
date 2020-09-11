@@ -49,9 +49,7 @@ public class UserController {
 	@PutMapping("/change/{oldPassword}")
 	public ResponseEntity<UserDTO> changeData(@RequestBody UserDTO userDTO, 
 											  @PathVariable("oldPassword") String oldPassword) {
-		System.out.println("#####" + userDTO + "###" + oldPassword);
 		User u = userService.changeData(userDTO, oldPassword);
-		System.out.println(u);
 		return new ResponseEntity<UserDTO>(new UserDTO(u), HttpStatus.OK);
 	}
 }
