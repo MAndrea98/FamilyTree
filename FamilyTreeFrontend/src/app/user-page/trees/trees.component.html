@@ -1,0 +1,21 @@
+<div class="container w3-animate-right">
+    <table class="w3-table-all w3-centered">
+        <tr class="w3-green">
+            <th>Name</th>
+            <th>Desciption</th>
+            <th>Select</th>
+        </tr>
+        <tr *ngFor="let tree of familyTrees">
+            <td>{{tree.name}}</td>
+            <td>{{tree.description}}</td>
+            <td>
+                <div [hidden]="tree.id==selectedTree.id">
+                    <button class="w3-btn w3-round-xlarge w3-teal w3-small" (click)="select(tree);">Select</button>
+                </div>
+                <div [hidden]="tree.id!=selectedTree.id">
+                    <button class="w3-btn w3-round-xlarge w3-teal w3-small" disabled>Selected</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
