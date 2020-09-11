@@ -52,6 +52,7 @@ export class UserPageComponent implements OnInit {
         localStorage.removeItem('user');
       },
       err=>{
+        console.log(err);
         alert('Something went wrong');
       }
     )
@@ -82,6 +83,7 @@ export class UserPageComponent implements OnInit {
         this.home();
       },
       err=> {
+        console.log(err);
         alert('Something went wrong');
       }
     )
