@@ -1,14 +1,14 @@
 import { Gender } from "./gender.enum";
 
 export class Person {
-    firstName: string;
-    middleName: string;
-    lastName: string;
-    maidenName: string;
+    id:number;
+    name: string;
     gender: Gender;
-    dateOfBirth: Date;
-    dateOdDeath: Date;
+    date:string;
+    title: string;
+    image: string;
     father: Person;
     mother: Person;
-
+    spouse: Person;
+    familyTree: Person;
 }
