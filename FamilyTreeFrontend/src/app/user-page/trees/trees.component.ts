@@ -20,7 +20,13 @@ export class TreesComponent implements OnInit {
 
   user: User;
   familyTrees: FamilyTree[];
-  selectedTree: FamilyTree;
+  selectedTree: FamilyTree = {
+    id:0,
+    name: '',
+    description: '',
+    member:null,
+    user:null
+  };
   newFamilyHidden: Boolean = true;
   editFormHidden: Boolean = true;
 
@@ -32,6 +38,7 @@ export class TreesComponent implements OnInit {
     this.user = JSON.parse(retrievedObject);
     this.selectedTree = new FamilyTree();
     this.selectedTree.id = 0;
+    localStorage.setItem('selectedTree', JSON.stringify(this.selectedTree));
     this.getAllMyTrees();
   }
 
@@ -96,6 +103,7 @@ export class TreesComponent implements OnInit {
         if(this.selectedTree.id == tree.id) {
           this.selectedTree = new FamilyTree();
           this.selectedTree.id = 0;
+          localStorage.setItem('selectedTree', JSON.stringify(this.selectedTree));
         }
         this.getAllMyTrees();
       },
@@ -111,6 +119,7 @@ export class TreesComponent implements OnInit {
       res=>{
         this.selectedTree = new FamilyTree();
         this.selectedTree.id = 0;
+        localStorage.setItem('selectedTree', JSON.stringify(this.selectedTree));
         this.getAllMyTrees();
       },
       err=> {
@@ -130,11 +139,13 @@ export class TreesComponent implements OnInit {
 
   select(tree: FamilyTree): void {
     this.selectedTree = tree;
+    localStorage.setItem('selectedTree', JSON.stringify(this.selectedTree));
   }
 
   diselect(): void {
     this.selectedTree = new FamilyTree();
     this.selectedTree.id = 0;
+    localStorage.setItem('selectedTree', JSON.stringify(this.selectedTree));
   }
   
   addNew(): void {

@@ -25,6 +25,9 @@ export class LoginPageComponent implements OnInit {
     if (localStorage.getItem('user')!=null) {
       localStorage.removeItem('user');
     }
+    if (localStorage.getItem('selectedTree')!=null) {
+      localStorage.removeItem('selectedTree');
+    }
   }
 
   home(): void {

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../_services/login-service';
 import { User } from '../_model/user';
+import { FamilyTree } from '../_model/family-tree';
 
 @Component({
   selector: 'app-user-page',
@@ -9,6 +9,7 @@ import { User } from '../_model/user';
   styleUrls: ['./user-page.component.css']
 })
 export class UserPageComponent implements OnInit {
+  @ViewChild('homes') homes: ElementRef;
 
   constructor(private service: LoginService) { }
 
@@ -16,6 +17,8 @@ export class UserPageComponent implements OnInit {
   userProfileHidden: Boolean = true;
   treeHidden: Boolean = true;
   homeHidden: Boolean = true;
+  selectedTree: FamilyTree;
+  familyTreeHidden: Boolean = true;
 
   ngOnInit(): void {
     if (localStorage.getItem('user')==null) {
@@ -23,6 +26,8 @@ export class UserPageComponent implements OnInit {
     }
     var retrievedObject = localStorage.getItem('user');
     this.user = JSON.parse(retrievedObject);
+    var tree = localStorage.getItem('selectedTree');
+    this.selectedTree = JSON.parse(tree);
     this.userProfileHidden = true;
     this.homeHidden = false;
   }
@@ -31,11 +36,20 @@ export class UserPageComponent implements OnInit {
     this.userProfileHidden = true;
     this.treeHidden = true;
     this.homeHidden = true;
+    this.familyTreeHidden = true;
   }
 
   home(): void {
     this.hiddenAll();
     this.homeHidden = false;
+    var tree = localStorage.getItem('selectedTree');
+    this.selectedTree = JSON.parse(tree);
+    if (this.selectedTree.id == 0) {
+      this.homes.nativeElement.style.background = "url('../../assets/images/tree.jpg') no-repeat center";
+    }
+    else {
+      this.homes.nativeElement.style.background = "rgb(255, 255, 255)";
+    }
   }
 
   logout(): void {
@@ -45,6 +59,7 @@ export class UserPageComponent implements OnInit {
       res=>{
         location.href="";
         localStorage.removeItem('user');
+        localStorage.removeItem('selectedTree');
       },
       err=>{
         console.log(err);
