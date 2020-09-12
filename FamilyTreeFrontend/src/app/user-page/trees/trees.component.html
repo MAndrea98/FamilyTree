@@ -1,0 +1,57 @@
+<div class="container w3-animate-right">
+    <table class="w3-table-all w3-centered" id="myTable">
+        <tr class="w3-purple">
+            <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">#</th>
+            <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Name</th>
+            <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Desciption</th>
+            <th>Choose</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        <tr *ngFor="let tree of familyTrees" class="item">
+            <td>{{tree.id}}</td>
+            <td>{{tree.name}}</td>
+            <td>{{tree.description}}</td>
+            <td>
+                <div [hidden]="tree.id==selectedTree.id">
+                    <button class="w3-btn w3-round-xlarge w3-teal w3-small" (click)="select(tree);">Select</button>
+                </div>
+                <div [hidden]="tree.id!=selectedTree.id">
+                    <button class="w3-btn w3-round-xlarge w3-teal w3-small" disabled>Selected</button>
+                </div>
+            </td>
+            <td><button class="w3-btn w3-round-xlarge w3-green w3-small" (click)="edit(tree)">Edit</button></td>
+            <td><button class="w3-btn w3-round-xlarge w3-red w3-small" (click)="delete(tree)">Delete</button></td>
+        </tr>
+    </table>
+    <br/>
+    <div>
+        <button class="w3-btn w3-round-xlarge w3-teal w3-small" style="margin:5px;" (click)="diselect();" [disabled]="selectedTree.id==0">Diselect all</button>
+        <button class="w3-btn w3-round-xlarge w3-green w3-small" style="margin:5px;" (click)="addNew();">Add new family tree</button>
+        <button class="w3-btn w3-round-xlarge w3-red w3-small" style="margin:5px;" (click)="deleteAll();">Delete all</button>
+    </div>
+    <br/>
+    <div class="addForm" [hidden]="newFamilyHidden">
+        <label for="fname">Name</label>
+        <input type="text" id="fname" placeholder="Family tree name..." #newFamilyName>
+    
+        <label for="lname">Description</label>
+        <textarea id="lname" placeholder="Family tree description..." #newFamilyDescription></textarea>
+        
+        <button class="w3-btn w3-round-xlarge w3-teal w3-small" style="margin:5px;" (click)="sendNewFamilyTree()">Add new family tree</button>
+        <button class="w3-btn w3-round-xlarge w3-red w3-small" style="margin:5px;" (click)="closeAddNew()">Close</button>
+    </div>
+    <div class="editForm" [hidden]="editFormHidden">
+        <label for="fname">Name</label>
+        <input type="text" id="fname" placeholder="Family tree name..." #editFamilyName>
+    
+        <label for="lname">Description</label>
+        <textarea id="lname" placeholder="Family tree description..." #editFamilyDescription></textarea>
+
+        <label for="fname" [hidden] = "true">ID</label>
+        <input type="hidden" id="fname" #editFamilyID>
+        
+        <button class="w3-btn w3-round-xlarge w3-teal w3-small" style="margin:5px;" (click)="sendEditFamilyTree()">Edit family tree</button>
+        <button class="w3-btn w3-round-xlarge w3-red w3-small" style="margin:5px;" (click)="closeEdit()">Close</button>
+    </div>
+</div>

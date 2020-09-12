@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,32 +16,32 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "first_name", nullable = false)
-	private String firstName;
-	
-	@Column(name = "middle_name")
-	private String middleName;
-	
-	@Column(name = "last_name", nullable = false)
-	private String lastName;
-	
-	@Column(name = "maiden_name")
-	private String maidenName;
+	@Column(name = "name", nullable = false)
+	private String name;
 	
 	@Column(name = "gender", nullable = false)
 	private Gender gender;
 	
-	@Column(name = "date_of_bith", nullable = false)
-	private Date dateOfBirth;
+	@Column(name = "date", nullable = false)
+	private String date;
 	
-	@Column(name = "date_of_death")
-	private Date dateOfDeath;
+	@Column(name = "title")
+	private String title;
+	
+	@Column(name = "image")
+	private String image;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Person father;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Person mother;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Person spouse;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private FamilyTree familyTree;
 
 	public Person() {
 		super();
@@ -58,36 +56,12 @@ public class Person {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getMiddleName() {
-		return middleName;
-	}
-
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getMaidenName() {
-		return maidenName;
-	}
-
-	public void setMaidenName(String maidenName) {
-		this.maidenName = maidenName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Gender getGender() {
@@ -98,20 +72,28 @@ public class Person {
 		this.gender = gender;
 	}
 
-	public Date getDateOfBirth() {
-		return dateOfBirth;
+	public String getDate() {
+		return date;
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+	public void setDate(String date) {
+		this.date = date;
 	}
 
-	public Date getDateOfDeath() {
-		return dateOfDeath;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setDateOfDeath(Date dateOfDeath) {
-		this.dateOfDeath = dateOfDeath;
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public Person getFather() {
@@ -121,7 +103,7 @@ public class Person {
 	public void setFather(Person father) {
 		this.father = father;
 	}
-	
+
 	public Person getMother() {
 		return mother;
 	}
@@ -130,12 +112,21 @@ public class Person {
 		this.mother = mother;
 	}
 
+	public Person getSpouse() {
+		return spouse;
+	}
+
+	public void setSpouse(Person spouse) {
+		this.spouse = spouse;
+	}
+
 	@Override
 	public String toString() {
-		return "Person [id=" + id + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName
-				+ ", maidenName=" + maidenName + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth
-				+ ", dateOfDeath=" + dateOfDeath + ", father=" + father + ", mother=" + mother + "]";
+		return "Person [id=" + id + ", name=" + name + ", gender=" + gender + ", date=" + date + ", title="
+				+ title + ", image=" + image + ", father=" + father + ", mother=" + mother + ", spouse=" + spouse + "]";
 	}
+
+	
 	
 	
 }

@@ -28,5 +28,9 @@ export class LoginService {
     public logout(user: User): Observable<User> {
         return this.http.post<User>("http://localhost:8080/user/logout", user, this.httpOptions);
     }
+
+    public changeDate(user: User, oldPassword:string): Observable<User> {
+        return this.http.put<User>("http://localhost:8080/user/change/" + oldPassword, user, this.httpOptions);
+    }
     
 }
