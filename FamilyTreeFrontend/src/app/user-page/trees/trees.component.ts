@@ -90,14 +90,6 @@ export class TreesComponent implements OnInit {
     );
   }
 
-  edit(tree: FamilyTree): void {
-    this.hideAll();
-    this.editFormHidden = false;
-    this.editFamilyName.nativeElement.value = tree.name;
-    this.editFamilyDescription.nativeElement.value = tree.description;
-    this.editFamilyID.nativeElement.value = tree.id;
-  } 
-
   delete(tree: FamilyTree): void {
     this.treeService.deleteFamilyTree(tree.id).subscribe(
       res=>{
@@ -113,6 +105,28 @@ export class TreesComponent implements OnInit {
       }
     );
   }
+
+  deleteAll(): void {
+    this.treeService.deleteAll().subscribe(
+      res=>{
+        this.selectedTree = new FamilyTree();
+        this.selectedTree.id = 0;
+        this.getAllMyTrees();
+      },
+      err=> {
+        console.log(err);
+        alert('Something went wrong');
+      }
+    );
+  }
+
+  edit(tree: FamilyTree): void {
+    this.hideAll();
+    this.editFormHidden = false;
+    this.editFamilyName.nativeElement.value = tree.name;
+    this.editFamilyDescription.nativeElement.value = tree.description;
+    this.editFamilyID.nativeElement.value = tree.id;
+  } 
 
   select(tree: FamilyTree): void {
     this.selectedTree = tree;

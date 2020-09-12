@@ -27,4 +27,8 @@ export class FamilyTreeService {
     public deleteFamilyTree(id: number): Observable<FamilyTree> {
         return this.http.delete<FamilyTree>("http://localhost:8080/familyTree/" + id, this.httpOptions);
     }
+
+    public deleteAll(): Observable<string> {
+        return this.http.delete("http://localhost:8080/familyTree", { responseType: 'text' });
+    }
 }

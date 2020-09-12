@@ -13,7 +13,7 @@
 					<input id="pass" type="password" class="input" data-type="password" #pass>
 				</div>
 				<div class="group">
-					<input type="submit" class="button" value="Sign in" (click)="login()">
+					<input type="submit" class="button" value="Sign in" (click)="login()" style="cursor:pointer">
 				</div>
 				<div class="hr"></div>
 			</div>
@@ -35,7 +35,7 @@
 					<input id="pass" type="text" class="input" #email>
 				</div>
 				<div class="group">
-					<input type="submit" class="button" value="Sign Up" (click)="signUp()">
+					<input type="submit" class="button" value="Sign Up" (click)="signUp()" style="cursor:pointer">
 				</div>
 				<div class="hr"></div>
 			</div>
@@ -58,7 +58,5 @@
       </footer>
     </div>
 </div>
-<br/>
-<br/>
-<a [routerLink]="" (click)="test()">Test</a>
+<a [routerLink]="" (click)="test()" style="cursor:pointer">Test</a>
 

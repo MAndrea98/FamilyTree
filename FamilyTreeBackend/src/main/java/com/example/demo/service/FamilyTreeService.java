@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.FamilyTreeDTO;
 import com.example.demo.model.FamilyTree;
@@ -11,6 +12,7 @@ import com.example.demo.model.LogedUser;
 import com.example.demo.repository.FamilyTreeRepository;
 
 @Service
+@Transactional
 public class FamilyTreeService {
 
 	@Autowired
@@ -48,4 +50,9 @@ public class FamilyTreeService {
 	public void deleteFamilyTree(Long id) {
 		familyTreeRepository.deleteById(id);
 	}
+	
+	public void deleteAll() {
+		familyTreeRepository.deleteByUser(LogedUser.getInstance().getUser());
+	}
+	
 }

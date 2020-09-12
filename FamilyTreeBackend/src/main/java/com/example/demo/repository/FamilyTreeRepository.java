@@ -10,4 +10,6 @@ import com.example.demo.model.User;
 public interface FamilyTreeRepository extends JpaRepository<FamilyTree, Long>{
 
 	List<FamilyTree> findByUser(User user);
+	
+	void deleteByUser(User user);
 }

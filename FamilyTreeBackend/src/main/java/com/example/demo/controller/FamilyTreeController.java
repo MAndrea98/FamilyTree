@@ -55,4 +55,10 @@ public class FamilyTreeController {
 		familyTreeService.deleteFamilyTree(id);
 		return new ResponseEntity<FamilyTreeDTO>(HttpStatus.OK);
 	}
+	
+	@DeleteMapping
+	public ResponseEntity<String> deleteAll() {
+		familyTreeService.deleteAll();
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
 }

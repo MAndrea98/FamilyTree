@@ -28,6 +28,7 @@
     <div>
         <button class="w3-btn w3-round-xlarge w3-teal w3-small" style="margin:5px;" (click)="diselect();" [disabled]="selectedTree.id==0">Diselect all</button>
         <button class="w3-btn w3-round-xlarge w3-green w3-small" style="margin:5px;" (click)="addNew();">Add new family tree</button>
+        <button class="w3-btn w3-round-xlarge w3-red w3-small" style="margin:5px;" (click)="deleteAll();">Delete all</button>
     </div>
     <br/>
     <div class="addForm" [hidden]="newFamilyHidden">
