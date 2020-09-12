@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class FamilyTree {
@@ -22,8 +25,8 @@ public class FamilyTree {
 	@Column(name = "description")
 	private String description;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Person member;
+	@OneToMany(mappedBy = "familyTree", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Person> members;
 	
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private User user;
@@ -57,12 +60,12 @@ public class FamilyTree {
 		this.description = description;
 	}
 
-	public Person getMember() {
-		return member;
+	public List<Person> getMembers() {
+		return members;
 	}
 
-	public void setMember(Person member) {
-		this.member = member;
+	public void setMembers(List<Person> members) {
+		this.members = members;
 	}
 
 	public User getUser() {
@@ -75,9 +78,10 @@ public class FamilyTree {
 
 	@Override
 	public String toString() {
-		return "FamilyTree [id=" + id + ", name=" + name + ", description=" + description + ", member=" + member
+		return "FamilyTree [id=" + id + ", name=" + name + ", description=" + description + ", members=" + members
 				+ ", user=" + user + "]";
 	}
+
 	
 	
 	

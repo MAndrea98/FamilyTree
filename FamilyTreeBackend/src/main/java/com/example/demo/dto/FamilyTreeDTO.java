@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import java.util.List;
+
 import com.example.demo.model.FamilyTree;
 import com.example.demo.model.Person;
 import com.example.demo.model.User;
@@ -9,25 +11,25 @@ public class FamilyTreeDTO {
 	private Long id;
 	private String name;
 	private String description;
-	private Person member;
+	private List<Person> members;
 	private User user;
 	
 	public FamilyTreeDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public FamilyTreeDTO(Long id, String name, String description, Person member, User user) {
+	
+	public FamilyTreeDTO(Long id, String name, String description, List<Person> members, User user) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.member = member;
+		this.members = members;
 		this.user = user;
 	}
-	
+
 	public FamilyTreeDTO(FamilyTree familyTree) {
-		this(familyTree.getId(), familyTree.getName(), familyTree.getDescription(), familyTree.getMember(), familyTree.getUser());
+		this(familyTree.getId(), familyTree.getName(), familyTree.getDescription(), familyTree.getMembers(), familyTree.getUser());
 	}
 
 	public Long getId() {
@@ -54,12 +56,12 @@ public class FamilyTreeDTO {
 		this.description = description;
 	}
 
-	public Person getMember() {
-		return member;
+	public List<Person> getMembers() {
+		return members;
 	}
 
-	public void setMember(Person member) {
-		this.member = member;
+	public void setMembers(List<Person> members) {
+		this.members = members;
 	}
 
 	public User getUser() {
