@@ -24,7 +24,7 @@ export class TreesComponent implements OnInit {
     id:0,
     name: '',
     description: '',
-    member:null,
+    members:[],
     user:null
   };
   newFamilyHidden: Boolean = true;
