@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { TreesComponent } from './user-page/trees/trees.component';
+import { UserDataComponent } from './user-page/user-data/user-data.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
     UserPageComponent,
-    TreesComponent
+    TreesComponent,
+    UserDataComponent
   ],
   imports: [
     BrowserModule,
