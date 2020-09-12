@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, Injector, ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef } from '@angular/core';
 import { LoginService } from '../_services/login-service';
 import { User } from '../_model/user';
 import { FamilyTree } from '../_model/family-tree';
+import { FamilyTreeComponent } from './family-tree/family-tree.component';
 
 @Component({
   selector: 'app-user-page',
@@ -11,7 +12,9 @@ import { FamilyTree } from '../_model/family-tree';
 export class UserPageComponent implements OnInit {
   @ViewChild('homes') homes: ElementRef;
 
-  constructor(private service: LoginService) { }
+  constructor(private service: LoginService, private componentFactoryResolver: ComponentFactoryResolver,
+    private injector: Injector, 
+    private appRef: ApplicationRef) { }
 
   user: User;
   userProfileHidden: Boolean = true;
@@ -48,6 +51,13 @@ export class UserPageComponent implements OnInit {
       this.homes.nativeElement.style.background = "url('../../assets/images/tree.jpg') no-repeat center";
     }
     else {
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(FamilyTreeComponent); 
+      const componentRef = componentFactory.create(this.injector);
+      this.appRef.attachView(componentRef.hostView);  
+      const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+      const element: HTMLElement = document.createElement('div');
+      element.appendChild(domElem); 
+      this.homes.nativeElement.appendChild(element);
       this.homes.nativeElement.style.background = "rgb(255, 255, 255)";
     }
   }

@@ -36,6 +36,8 @@ public class FamilyTreeController {
 	@GetMapping
 	public ResponseEntity<List<FamilyTree>> getAllMyTrees() {
 		List<FamilyTree> trees = familyTreeService.getAllMyTrees();
+		if (trees.size() > 0)
+			System.out.println(trees.get(0).getMembers().size());
 		return new ResponseEntity<List<FamilyTree>>(trees, HttpStatus.OK);
 	}
 	
