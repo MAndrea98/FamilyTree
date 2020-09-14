@@ -43,19 +43,21 @@
 	</div>
 </div>
 <div id="modal" class="w3-modal">
-    <div class="w3-modal-content w3-animate-top w3-card-4" style="width: 500px;">
-      <header class="w3-container w3-aqua"> 
+    <div class="w3-modal-content w3-animate-top w3-card-4" style="width: 600px;">
+      <header class="w3-container w3-teal"> 
         <span onclick="document.getElementById('modal').style.display='none'" 
-        class="w3-button w3-display-topright">&times;</span>
+        class="w3-button w3-display-topright" style="color: white;">&times;</span>
         <h4>Successfuly registration</h4>
       </header>
       <div class="w3-container">
         <p>Hi!</p>
         <p>You are successfuly registrated!</p>
       </div>
-      <footer class="w3-container w3-aqua">
-        <p>Enjoy in application!</p>
-      </footer>
+      <div class="w3-container w3-border-top w3-padding-16 w3-teal">
+        <span>Enjoy the application</span>
+		<button onclick="document.getElementById('modal').style.display='none'" 
+		type="button" class="w3-button w3-red w3-right w3-padding w3-hide-small w3-round-xlarge">Close</button>
+      </div>
     </div>
 </div>
 <a [routerLink]="" (click)="test()" style="cursor:pointer">Test</a>

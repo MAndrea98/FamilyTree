@@ -8,6 +8,7 @@ import { UserPageComponent } from './user-page/user-page.component';
 import { TreesComponent } from './user-page/trees/trees.component';
 import { UserDataComponent } from './user-page/user-data/user-data.component';
 import { FamilyTreeComponent } from './user-page/family-tree/family-tree.component';
+import { AddPersonComponent } from './user-page/add-person/add-person.component';
 
 @NgModule({
   declarations: [
@@ -16,14 +17,15 @@ import { FamilyTreeComponent } from './user-page/family-tree/family-tree.compone
     UserPageComponent,
     TreesComponent,
     UserDataComponent,
-    FamilyTreeComponent
+    FamilyTreeComponent,
+    AddPersonComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [FamilyTreeComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

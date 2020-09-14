@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, Injector, ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, Injector, ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef, ChangeDetectorRef } from '@angular/core';
 import { LoginService } from '../_services/login-service';
 import { User } from '../_model/user';
 import { FamilyTree } from '../_model/family-tree';
@@ -11,10 +11,13 @@ import { FamilyTreeComponent } from './family-tree/family-tree.component';
 })
 export class UserPageComponent implements OnInit {
   @ViewChild('homes') homes: ElementRef;
+  @ViewChild('welcome') welcome: ElementRef;
 
-  constructor(private service: LoginService, private componentFactoryResolver: ComponentFactoryResolver,
+  constructor(private service: LoginService, 
+    private componentFactoryResolver: ComponentFactoryResolver,
     private injector: Injector, 
-    private appRef: ApplicationRef) { }
+    private appRef: ApplicationRef, 
+    private render: Renderer2) { }
 
   user: User;
   userProfileHidden: Boolean = true;
@@ -22,17 +25,19 @@ export class UserPageComponent implements OnInit {
   homeHidden: Boolean = true;
   selectedTree: FamilyTree;
   familyTreeHidden: Boolean = true;
+  addPersonHidden: Boolean = true;
 
   ngOnInit(): void {
     if (localStorage.getItem('user')==null) {
       location.href="";
     }
+    this.userProfileHidden = true;
+    this.hiddenAll();
+    this.homeHidden = false;
     var retrievedObject = localStorage.getItem('user');
     this.user = JSON.parse(retrievedObject);
     var tree = localStorage.getItem('selectedTree');
     this.selectedTree = JSON.parse(tree);
-    this.userProfileHidden = true;
-    this.homeHidden = false;
   }
 
   hiddenAll(): void {
@@ -40,6 +45,7 @@ export class UserPageComponent implements OnInit {
     this.treeHidden = true;
     this.homeHidden = true;
     this.familyTreeHidden = true;
+    this.addPersonHidden = true;
   }
 
   home(): void {
@@ -49,6 +55,10 @@ export class UserPageComponent implements OnInit {
     this.selectedTree = JSON.parse(tree);
     if (this.selectedTree.id == 0) {
       this.homes.nativeElement.style.background = "url('../../assets/images/tree.jpg') no-repeat center";
+      const childElements = this.homes.nativeElement.children;
+      for (let child of childElements) {
+        this.render.removeChild(this.homes.nativeElement, child);
+      }
     }
     else {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(FamilyTreeComponent); 
@@ -86,6 +96,11 @@ export class UserPageComponent implements OnInit {
   trees(): void {
     this.hiddenAll();
     this.treeHidden = false;
+  }
+
+  addPerson(): void {
+    this.hiddenAll();
+    this.addPersonHidden = false;
   }
 
 }

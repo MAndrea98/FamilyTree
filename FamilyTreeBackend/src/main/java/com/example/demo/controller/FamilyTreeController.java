@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.FamilyTreeDTO;
+import com.example.demo.dto.FirstPersonDTO;
+import com.example.demo.dto.WithParentDTO;
+import com.example.demo.dto.WithPartnerDTO;
 import com.example.demo.model.FamilyTree;
 import com.example.demo.service.FamilyTreeService;
 
@@ -62,5 +65,24 @@ public class FamilyTreeController {
 	public ResponseEntity<String> deleteAll() {
 		familyTreeService.deleteAll();
 		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+	
+	@PostMapping("/addWithPartner")
+	public ResponseEntity<FamilyTreeDTO> addWithPartner(@RequestBody WithPartnerDTO withPartnerDTO) {
+		FamilyTree familyTree = familyTreeService.addWithPartner(withPartnerDTO);
+		System.out.println(familyTree.getMembers().size());
+		return new ResponseEntity<FamilyTreeDTO>(new FamilyTreeDTO(familyTree), HttpStatus.OK);
+	}
+	
+	@PostMapping("/addWithParent")
+	public ResponseEntity<FamilyTreeDTO> addWithParent(@RequestBody WithParentDTO withParentDTO) {
+		System.out.println(withParentDTO.getName());
+		return new ResponseEntity<FamilyTreeDTO>(HttpStatus.OK);
+	}
+	
+	@PostMapping("/firstPerson")
+	public ResponseEntity<FamilyTreeDTO> addFirstPerson(@RequestBody FirstPersonDTO firstPersonDTO) {
+		System.out.println(firstPersonDTO.getName());
+		return new ResponseEntity<FamilyTreeDTO>(HttpStatus.OK);
 	}
 }

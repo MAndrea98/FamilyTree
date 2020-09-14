@@ -1,0 +1,70 @@
+<div class="container" [hidden]="selectedTree == null || selectedTree.id == 0">
+    <h2 style="background-color: teal; color: white; text-align: center;">Add new person</h2>
+    <form>
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter person's name..." #name>
+
+            <label for="title">Title</label>
+            <input type="text" id="title" placeholder="Enter person's title..." #title>
+        </div>
+
+        <div class="row">
+            <label for="bithYear">Year of birth</label>
+            <input type="text" id="bithYear" placeholder="Year of birth" #birth>
+            <label for="deathYear">Year of death <strong>(If the person is still alive, don't add anything)</strong></label>
+            <input type="text" id="deathYear" placeholder="Year of death" #death>
+        </div>
+        <br/>
+        <div style="text-align: center; width:100%; border: 3px solid teal; padding-bottom: 2%;">
+            <div class="col-md-6 offset-md-3">
+                <h3>Choose Photo</h3>            
+                <div class="form-group">
+                    <input type="file" name="image" (change)="fileProgress($event)" accept="image/x-png,image/gif,image/jpeg"/>
+                </div>
+                <div *ngIf="fileUploadProgress">
+                    Upload progress: {{ fileUploadProgress }}
+                </div>
+                <div class="image-preview mb-3" *ngIf="previewUrl">
+                    <img [src]="previewUrl" height="300" />                 
+                </div>
+                
+                <div class="mb-3" *ngIf="uploadedFilePath">
+                    {{uploadedFilePath}}
+                </div>
+            </div>
+        </div>
+        
+        <div style="padding-top: 2%; padding-bottom: 2%;">
+            <input type="radio" id="spouse" name="type" value="spouse" (change)="radioButtonChecked(1)" 
+            [hidden]="selectedTree == null || this.selectedTree.members.length == 0">
+            <label for="spouse" [hidden]="selectedTree == null || this.selectedTree.members.length == 0"> Add to partner</label><br/>
+            <input type="radio" id="parents" name="type" value="parents" (change)="radioButtonChecked(2)" 
+            [hidden]="selectedTree == null || this.selectedTree.members.length == 0">
+            <label for="parents" [hidden]="selectedTree == null || this.selectedTree.members.length == 0"> Add to parents</label><br/>   
+            <label [hidden]="this.selectedTree.members.length > 0"><strong>This is the first person of family tree</strong></label> 
+        </div>
+        
+        <div [hidden]="selectedTree == null || partnerHidden || this.selectedTree.members.length == 0">
+            <label for="partner">Partner</label>
+            <select id="partner" name="partner" #partner>
+                <option *ngFor="let partner of partners">{{partner}}</option>
+            </select>
+        </div>
+
+        <div [hidden]="selectedTree == null || parentHidden || this.selectedTree.members.length == 0">
+            <label for="parent">Parent</label>
+            <select id="parent" name="parent" #parent>
+                <option *ngFor="let parent of parents">{{parent}}</option>
+            </select>
+        </div>
+        
+        <a class="btn w3-btn w3-teal w3-round-xlarge" (click)="onSubmit();">Add new person</a>
+    </form>
+</div>
+
+<div class="w3-panel w3-red" [hidden]="selectedTree.id != 0 || selectedTree != null">
+    <h3>You can not add new person</h3>
+    <p>Please select family tree</p>
+</div>
+

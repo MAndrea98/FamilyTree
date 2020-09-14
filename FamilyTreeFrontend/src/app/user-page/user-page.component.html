@@ -16,9 +16,10 @@
       <div class="w3-col s4">
           <img src="../../assets/images/logo.jpg" class="w3-circle w3-margin-right" style="width:70px">
       </div>
-      <div class="w3-col s8 w3-bar">
-          <span>Welcome, <strong>@{{user.username}}</strong></span><br>
-          <span>({{user.email}})</span>
+      <div class="w3-col s8 w3-bar" #welcome>
+          <span>Welcome, <strong>@{{user.username}}</strong></span><br/>
+          <span>({{user.email}})</span><br/>
+          <span *ngIf="selectedTree != null"><i>{{selectedTree.name}}</i></span>
       </div>
     </div>
     <hr>
@@ -28,7 +29,7 @@
     <div class="w3-bar-block full-height">
       <a class="w3-bar-item w3-button w3-padding w3-animate-left" (click)="home();"><i class="fa fa-home fa-fw"></i>  Home</a>
       <a class="w3-bar-item w3-button w3-padding w3-animate-left" (click)="trees();"><i class="fas fa-sitemap"></i>  My family trees</a>
-      <a class="w3-bar-item w3-button w3-padding w3-animate-left"><i class="fa fa-user-tie fa-fw"></i>  Add new person</a>
+      <a class="w3-bar-item w3-button w3-padding w3-animate-left" (click)="addPerson();"><i class="fa fa-user-tie fa-fw"></i>  Add new person</a>
       <a class="w3-bar-item w3-button w3-padding w3-animate-left"><i class="fa fa-child fa-fw"></i>  Add new child</a>
       <a class="w3-bar-item w3-button w3-padding w3-animate-left"><i class="fas fa-user-friends"></i>  Add new sibling</a>
       <a class="w3-bar-item w3-button w3-padding w3-animate-left"><i class="fa fa-venus-mars fa-fw"></i>  Add new spouse</a>
@@ -51,7 +52,9 @@
       </div>
       <div id="userProfile" class="w3-animate-right" [hidden]="userProfileHidden">
         <app-user-data></app-user-data>
-        
+      </div>
+      <div [hidden]="addPersonHidden" class="w3-animate-right">
+        <app-add-person></app-add-person>
       </div>
     </div>
   </div>
