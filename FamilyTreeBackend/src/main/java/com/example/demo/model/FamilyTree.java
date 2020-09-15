@@ -33,7 +33,7 @@ public class FamilyTree {
 
 	public FamilyTree() {
 		super();
-		 
+		
 	}
 
 	public Long getId() {
