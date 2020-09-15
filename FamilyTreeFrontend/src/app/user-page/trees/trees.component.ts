@@ -36,9 +36,13 @@ export class TreesComponent implements OnInit {
     }
     var retrievedObject = localStorage.getItem('user');
     this.user = JSON.parse(retrievedObject);
-    this.selectedTree = new FamilyTree();
-    this.selectedTree.id = 0;
-    localStorage.setItem('selectedTree', JSON.stringify(this.selectedTree));
+    var tree = localStorage.getItem('selectedTree');
+    this.selectedTree = JSON.parse(tree);
+    if (this.selectedTree == null) {
+      this.selectedTree = new FamilyTree();
+      this.selectedTree.id = 0;
+      localStorage.setItem('selectedTree', JSON.stringify(this.selectedTree));
+    }
     this.getAllMyTrees();
   }
 

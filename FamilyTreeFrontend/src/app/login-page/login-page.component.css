@@ -7,7 +7,7 @@ body{
 a{color:white;text-decoration:none}
 
 a:hover {
-    color:darkturquoise;
+    color:teal;
 }
 
 h1 {
@@ -104,7 +104,8 @@ h1 {
 	font-size:12px;
 }
 .login-form .group .button{
-	background:darkturquoise;
+	background:teal;
+	color: white;
 }
 .login-form .group label .icon{
 	width:15px;
