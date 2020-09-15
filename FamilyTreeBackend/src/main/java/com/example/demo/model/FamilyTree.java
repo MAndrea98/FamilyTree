@@ -33,7 +33,7 @@ public class FamilyTree {
 
 	public FamilyTree() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Long getId() {
