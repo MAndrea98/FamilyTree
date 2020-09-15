@@ -11,14 +11,13 @@
   </div>
 
   <!-- Sidebar/menu -->
-  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;padding-top:1%;" id="mySidebar"><br>
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;padding-top:3%;" id="mySidebar"><br>
     <div class="w3-container w3-row">
       <div class="w3-col s4">
           <img src="../../assets/images/logo.jpg" class="w3-circle w3-margin-right" style="width:70px">
       </div>
       <div class="w3-col s8 w3-bar">
           <span>Welcome, <strong>@{{user.username}}</strong></span><br>
-          <span>({{user.email}})</span>
       </div>
     </div>
     <hr>
@@ -41,19 +40,21 @@
   </nav>
 
   <!-- !PAGE CONTENT! -->
-  <div class="w3-main full-height" style="margin-left:300px;">
-    <div class="w3-panel" style="padding-top:5%;">
-      <div id="home" class="w3-animate-right" [hidden]="homeHidden" style="height: 600px;" #homes>
-        
-      </div>
+  <div class="w3-main full-height" style="margin-left:300px; background: url('../../assets/images/tree.jpg') no-repeat center; 
+                                          padding-top:5%; height: 600px; padding-left: 1%; padding-right: 1%;" #homes>
+    <!--
+    <div class="w3-panel" style="">
+     
+      <div id="home" class="w3-animate-right" [hidden]="homeHidden" style="height: 600px;"></div>
       <div [hidden]="treeHidden">
         <app-trees></app-trees>
       </div>
       <div id="userProfile" class="w3-animate-right" [hidden]="userProfileHidden">
         <app-user-data></app-user-data>
-        
       </div>
+   
     </div>
+     -->
   </div>
 
 </div>
