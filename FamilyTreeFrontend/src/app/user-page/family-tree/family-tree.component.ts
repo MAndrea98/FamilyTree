@@ -194,6 +194,24 @@ export class FamilyTreeComponent implements OnInit {
     }
 
     addPartner(): void {
+        this.name.nativeElement.style.background = "rgba(255,255,255,1)";
+        this.name.nativeElement.style.color = "rgba(0,0,0,1)";
+        this.date.nativeElement.style.background = "rgba(255,255,255,1)";
+        this.date.nativeElement.style.color = "rgba(0,0,0,1)";
+
+        var date: string = this.date.nativeElement.value;
+        var splitter: string[] = date.split("-");
+        if (!Number(splitter[0]) || (splitter[1] != "" && !Number(splitter[1])) || Number(splitter[0]) > Number(splitter[1])) {
+            this.date.nativeElement.style.background = "rgba(255,0,0,.6)";
+            this.date.nativeElement.style.color = "rgba(255,255,255,1)";
+            return;
+        }
+        if (this.name.nativeElement.value == "") {
+            this.name.nativeElement.style.background = "rgba(255,0,0,.6)";
+            this.name.nativeElement.style.color = "rgba(255,255,255,1)";
+            return;
+        }
+
         if(this.fileData == null) {
             this.previewUrl = "../../../assets/images/no_image.png";
             document.getElementById('id01').style.display='none';
@@ -214,6 +232,9 @@ export class FamilyTreeComponent implements OnInit {
                 }
             }
             chartModel.img = this.previewUrl;
+            this.name.nativeElement.value = "";
+            this.title.nativeElement.value = "";
+            this.date.nativeElement.value = "";
             this.charts.push(chartModel);
             this.nodeIds = 0;
             this.drawTree(this.charts);
@@ -241,6 +262,9 @@ export class FamilyTreeComponent implements OnInit {
                 }
             }
             chartModel.img = this.previewUrl;
+            this.name.nativeElement.value = "";
+            this.title.nativeElement.value = "";
+            this.date.nativeElement.value = "";
             this.charts.push(chartModel);
             this.nodeIds = 0;
             this.drawTree(this.charts);
@@ -250,6 +274,24 @@ export class FamilyTreeComponent implements OnInit {
     }
 
     addChild(): void {
+        this.name.nativeElement.style.background = "rgba(255,255,255,1)";
+        this.name.nativeElement.style.color = "rgba(0,0,0,1)";
+        this.date.nativeElement.style.background = "rgba(255,255,255,1)";
+        this.date.nativeElement.style.color = "rgba(0,0,0,1)";
+
+        var date: string = this.date.nativeElement.value;
+        var splitter: string[] = date.split("-");
+        if (!Number(splitter[0]) || (splitter[1] != "" && !Number(splitter[1])) || Number(splitter[0]) > Number(splitter[1])) {
+            this.date.nativeElement.style.background = "rgba(255,0,0,.6)";
+            this.date.nativeElement.style.color = "rgba(255,255,255,1)";
+            return;
+        }
+        if (this.name.nativeElement.value == "") {
+            this.name.nativeElement.style.background = "rgba(255,0,0,.6)";
+            this.name.nativeElement.style.color = "rgba(255,255,255,1)";
+            return;
+        }
+
         if(this.fileData == null) {
             this.previewUrl = "../../../assets/images/no_image.png";
             document.getElementById('id01').style.display='none';
@@ -270,15 +312,12 @@ export class FamilyTreeComponent implements OnInit {
                     }
                 }
                 
-                for (let i: number = 0; i < this.charts.length; i++) {
-                    if(this.charts[i].tags != null) {
-                        if (this.charts[i].tags.length > 0 && this.charts[i].pid == this.nodeIds) {
-                            chartModel.ppid = this.charts[i].id;
-                        }
-                    }
-                }
             }
-        
+
+            this.name.nativeElement.value = "";
+            this.title.nativeElement.value = "";
+            this.date.nativeElement.value = "";
+
             this.charts.push(chartModel);
             this.nodeIds = 0;
             this.drawTree(this.charts);
@@ -306,14 +345,12 @@ export class FamilyTreeComponent implements OnInit {
                         }
                     }
                     
-                    for (let i: number = 0; i < this.charts.length; i++) {
-                        if(this.charts[i].tags != null) {
-                            if (this.charts[i].tags.length > 0 && this.charts[i].pid == this.nodeIds) {
-                                chartModel.ppid = this.charts[i].id;
-                            }
-                        }
-                    }
                 }
+
+                this.name.nativeElement.value = "";
+                this.title.nativeElement.value = "";
+                this.date.nativeElement.value = "";
+
                 this.charts.push(chartModel);
                 this.nodeIds = 0;
                 this.drawTree(this.charts);
@@ -322,6 +359,25 @@ export class FamilyTreeComponent implements OnInit {
     }
 
     editing(): void {
+        this.n.nativeElement.style.background = "rgba(255,255,255,1)";
+        this.n.nativeElement.style.color = "rgba(0,0,0,1)";
+        this.d.nativeElement.style.background = "rgba(255,255,255,1)";
+        this.d.nativeElement.style.color = "rgba(0,0,0,1)";
+
+        var date: string = this.d.nativeElement.value;
+        var splitter: string[] = date.split("-");
+        if (!Number(splitter[0]) || (splitter[1] != "" && !Number(splitter[1])) || 
+            (Number(splitter[0]) > Number(splitter[1]) && splitter[1] != "")) {
+            this.d.nativeElement.style.background = "rgba(255,0,0,.6)";
+            this.d.nativeElement.style.color = "rgba(255,255,255,1)";
+            return;
+        }
+        if (this.n.nativeElement.value == "") {
+            this.n.nativeElement.style.background = "rgba(255,0,0,.6)";
+            this.n.nativeElement.style.color = "rgba(255,255,255,1)";
+            return;
+        }
+
         if(this.fileData == null) {
             if (!Number(this.nodeIds)) {
                 this.previewUrl = "../../../assets/images/no_image.png";
@@ -339,18 +395,15 @@ export class FamilyTreeComponent implements OnInit {
                         this.charts[i].name = this.n.nativeElement.value;
                         this.charts[i].title = this.t.nativeElement.value;
                         this.charts[i].date = this.d.nativeElement.value;
-                        if (this.charts[i].tags != null) {
-                            if (this.charts[i].tags.length == 0) {
-                                for (let j: number = 0; j < this.charts.length; j++) {
-                                    if (this.charts[j].tags.length > 0 && this.charts[j].pid == this.charts[i].pid) {
-                                        this.charts[i].ppid = this.charts[j].id;
-                                    }
-                                }
-                            }
-                        }
+                        
                     }
                 }
             }
+
+            this.n.nativeElement.value = "";
+            this.t.nativeElement.value = "";
+            this.d.nativeElement.value = "";
+
             this.nodeIds = 0;
             this.drawTree(this.charts);
         }
@@ -375,18 +428,13 @@ export class FamilyTreeComponent implements OnInit {
                             this.charts[i].title = this.t.nativeElement.value;
                             this.charts[i].date = this.d.nativeElement.value;
                             this.charts[i].img = this.previewUrl;
-                            if (this.charts[i].tags != null) {
-                                if (this.charts[i].tags.length == 0) {
-                                    for (let j: number = 0; j < this.charts.length; j++) {
-                                        if (this.charts[j].tags.length > 0 && this.charts[j].pid == this.charts[i].pid) {
-                                            this.charts[i].ppid = this.charts[j].id;
-                                        }
-                                    }
-                                }
-                            }
+                            
                         }
                     }
                 }
+                this.n.nativeElement.value = "";
+                this.t.nativeElement.value = "";
+                this.d.nativeElement.value = "";
                 this.nodeIds = 0;
                 this.drawTree(this.charts);
             }
