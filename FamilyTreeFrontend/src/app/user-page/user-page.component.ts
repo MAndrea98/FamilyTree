@@ -3,6 +3,8 @@ import { LoginService } from '../_services/login-service';
 import { User } from '../_model/user';
 import { FamilyTree } from '../_model/family-tree';
 import { FamilyTreeComponent } from './family-tree/family-tree.component';
+import { TreesComponent } from './trees/trees.component';
+import { UserDataComponent } from './user-data/user-data.component';
 
 @Component({
   selector: 'app-user-page',
@@ -14,7 +16,8 @@ export class UserPageComponent implements OnInit {
 
   constructor(private service: LoginService, private componentFactoryResolver: ComponentFactoryResolver,
     private injector: Injector, 
-    private appRef: ApplicationRef) { }
+    private appRef: ApplicationRef,
+    private renderer: Renderer2) { }
 
   user: User;
   userProfileHidden: Boolean = true;
@@ -43,14 +46,13 @@ export class UserPageComponent implements OnInit {
   }
 
   home(): void {
-    this.hiddenAll();
-    this.homeHidden = false;
     var tree = localStorage.getItem('selectedTree');
     this.selectedTree = JSON.parse(tree);
-    if (this.selectedTree.id == 0) {
-      this.homes.nativeElement.style.background = "url('../../assets/images/tree.jpg') no-repeat center";
+    const childElements = this.homes.nativeElement.childNodes;
+      for (let child of childElements) {
+        this.renderer.removeChild(this.homes.nativeElement, child);
     }
-    else {
+    if (this.selectedTree.id != 0) {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(FamilyTreeComponent); 
       const componentRef = componentFactory.create(this.injector);
       this.appRef.attachView(componentRef.hostView);  
@@ -59,6 +61,9 @@ export class UserPageComponent implements OnInit {
       element.appendChild(domElem); 
       this.homes.nativeElement.appendChild(element);
       this.homes.nativeElement.style.background = "rgb(255, 255, 255)";
+    }
+    else {
+      this.homes.nativeElement.style.background = "url('../../assets/images/tree.jpg') no-repeat center";
     }
   }
 
@@ -79,13 +84,33 @@ export class UserPageComponent implements OnInit {
   }
 
   settings(): void {
-    this.hiddenAll();
-    this.userProfileHidden = false;
+    const childElements = this.homes.nativeElement.childNodes;
+    for (let child of childElements) {
+      this.renderer.removeChild(this.homes.nativeElement, child);
+    }
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(UserDataComponent); 
+    const componentRef = componentFactory.create(this.injector);
+    this.appRef.attachView(componentRef.hostView);  
+    const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+    const element: HTMLElement = document.createElement('div');
+    element.appendChild(domElem); 
+    this.homes.nativeElement.appendChild(element);
+    this.homes.nativeElement.style.background = "rgb(255, 255, 255)";
   }
 
   trees(): void {
-    this.hiddenAll();
-    this.treeHidden = false;
+    const childElements = this.homes.nativeElement.childNodes;
+    for (let child of childElements) {
+      this.renderer.removeChild(this.homes.nativeElement, child);
+    }
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(TreesComponent); 
+    const componentRef = componentFactory.create(this.injector);
+    this.appRef.attachView(componentRef.hostView);  
+    const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+    const element: HTMLElement = document.createElement('div');
+    element.appendChild(domElem); 
+    this.homes.nativeElement.appendChild(element);
+    this.homes.nativeElement.style.background = "rgb(255, 255, 255)";
   }
 
 }

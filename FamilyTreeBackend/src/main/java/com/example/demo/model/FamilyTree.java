@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class FamilyTree {
 
@@ -25,6 +27,7 @@ public class FamilyTree {
 	@Column(name = "description")
 	private String description;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "familyTree", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Person> members;
 	
@@ -33,7 +36,7 @@ public class FamilyTree {
 
 	public FamilyTree() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Long getId() {

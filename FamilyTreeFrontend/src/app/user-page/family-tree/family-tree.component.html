@@ -1,1 +1,87 @@
+<div class="w3-cell-row">
+    <div class="w3-container w3-teal w3-cell">
+      <p>{{selectedTree.name}}</p>
+    </div>
+  
+    <div class="w3-container w3-teal w3-cell">
+      <a class="w3-btn w3-round-xlarge w3-medium w3-rigth" style="margin: 0; padding: 1%; position: absolute;" (click)="save();">Save</a>
+    </div>
+</div>
 <div id="tree" class="container"></div>
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+        <div class="w3-center"><br>
+            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+        </div>
+
+        <form class="w3-container" [hidden] = "edit">
+            <div class="w3-section">
+                <div style="text-align: center; width:100%; padding-bottom: 2%;">
+                    <div class="col-md-6 offset-md-3">
+                        <h3>Add person</h3>  
+                        <div *ngIf="fileUploadProgress">
+                            Upload progress: {{ fileUploadProgress }}
+                        </div>
+                        <div class="image-preview mb-3" *ngIf="previewUrl">
+                            <img [src]="previewUrl" style="border-radius: 50%; object-fit: cover; width:130px; height:130px;"/>                 
+                        </div>
+                        <div class="mb-3" *ngIf="uploadedFilePath">
+                            {{uploadedFilePath}}
+                        </div>
+                        <div class="form-group">
+                            <input type="file" name="image" (change)="fileProgress($event)" accept="image/x-png,image/gif,image/jpeg"/>
+                        </div>
+                    </div>
+                    <label><b>Name</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name" #name>
+                    <label><b>Title</b></label>
+                    <input class="w3-input w3-border" type="text" placeholder="Enter title" #title>
+                    <label><b>Date</b></label>
+                    <input class="w3-input w3-border" type="text" placeholder="Enter date like: 1900-1978 or 1990-" #date>
+                    <input type="checkbox" #addToPartner [hidden] = "partner"><span class="w3-padding w3-hide-small" [hidden] = "partner">Add also to partner</span>
+                    <input type="checkbox" #addToChild [hidden] = "!partner"><span class="w3-padding w3-hide-small" [hidden] = "!partner">Add also to child</span>
+                    <div [hidden]="!partner">
+                        <a class="w3-button w3-block w3-green w3-section w3-padding" (click)="addPartner()" >Add partner</a>
+                    </div>
+                    <div [hidden]="partner">
+                        <a class="w3-button w3-block w3-green w3-section w3-padding" (click)="addChild()" >Add child</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form class="w3-container" [hidden] = "!edit">
+            <div style="text-align: center; width:100%; padding-bottom: 2%;">
+                <div class="col-md-6 offset-md-3">
+                    <h3>Data</h3>   
+                    <div *ngIf="fileUploadProgress">
+                        Upload progress: {{ fileUploadProgress }}
+                    </div>
+                    <div class="image-preview mb-3" *ngIf="previewUrl">
+                        <img [src]="previewUrl" style="border-radius: 50%; object-fit: cover; width:130px; height:130px;"/>                 
+                    </div>
+                    <div class="mb-3" *ngIf="uploadedFilePath">
+                        {{uploadedFilePath}}
+                    </div>
+                    <div class="form-group" [hidden]="isReadonly">
+                        <input type="file" name="image" (change)="fileProgress($event)" accept="image/x-png,image/gif,image/jpeg"/>
+                    </div>
+                </div>
+                <label><b>Name</b></label>
+                <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name" #n [readonly]="isReadonly">
+                <label><b>Title</b></label>
+                <input class="w3-input w3-border" type="text" placeholder="Enter title" #t [readonly]="isReadonly">
+                <label><b>Date</b></label>
+                <input class="w3-input w3-border" type="text" placeholder="Enter date like: 1900-1978 or 1990-" #d [readonly]="isReadonly">
+                <div [hidden] = "isReadonly">
+                    <a class="w3-button w3-block w3-green w3-section w3-padding" (click)="editing()">Edit data</a>
+                </div>
+            </div>
+        </form>
+
+        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey ">
+            <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-button w3-red w3-rigth">Close</button>
+        </div>
+</div>
+

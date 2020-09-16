@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FamilyTree } from '../_model/family-tree';
+import { Person } from '../_model/person';
+import { PersonDTO } from '../_model/personDTO';
 
 @Injectable({
     providedIn: 'root'
@@ -30,5 +32,13 @@ export class FamilyTreeService {
 
     public deleteAll(): Observable<string> {
         return this.http.delete("http://localhost:8080/familyTree", { responseType: 'text' });
+    }
+
+    public saveFamilyTree(tree: FamilyTree, persons: PersonDTO[]): Observable<FamilyTree> {
+        return this.http.put<FamilyTree>("http://localhost:8080/familyTree/save/" + tree.id, persons, this.httpOptions);
+    }
+
+    public getMembers(id: number): Observable<Person[]> {
+        return this.http.get<Person[]>("http://localhost:8080/familyTree/members/" + id, this.httpOptions);
     }
 }
