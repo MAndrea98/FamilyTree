@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ChartDTO;
 import com.example.demo.dto.FamilyTreeDTO;
-import com.example.demo.dto.PersonDTO;
 import com.example.demo.model.FamilyTree;
 import com.example.demo.model.Person;
 import com.example.demo.service.FamilyTreeService;
