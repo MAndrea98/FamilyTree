@@ -55,6 +55,7 @@ export class FamilyTreeComponent implements OnInit {
         var addNewPartnerIcon = '<i class="fa fa-venus-mars fa-fw"></i>';
         var addNewChildIcon = '<i class="fa fa-child fa-fw"></i>';
         var addParentIcon = '<i class="fa fa-user-tie fa-fw"></i>';
+        OrgChart.templates.family_template.field_2 = '<text class="field_2" style="font-size: 14px;" fill="#757575" x="160" y="95" text-anchor="middle">{val}</text>';
         OrgChart.templates.family_template_black = Object.assign({}, OrgChart.templates.family_template);
         OrgChart.templates.family_template_black.node = '<svg width="250" height="120"><rect width="250" height="120" style="fill:rgb(220,220,220);stroke-width:3;stroke:rgb(0,0,0)" /></svg>';
 
