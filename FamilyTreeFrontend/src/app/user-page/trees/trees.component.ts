@@ -54,6 +54,7 @@ export class TreesComponent implements OnInit {
   getAllMyTrees() {
     this.userService.getAllMy().subscribe(
       (res: FamilyTree[]) => {
+        console.log(res);
         this.familyTrees = res;
       },
       err=>{

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.FamilyTreeDTO;
+import com.example.demo.dto.PersonDTO;
 import com.example.demo.model.FamilyTree;
+import com.example.demo.model.Person;
 import com.example.demo.service.FamilyTreeService;
 
 @RestController
@@ -62,5 +64,19 @@ public class FamilyTreeController {
 	public ResponseEntity<String> deleteAll() {
 		familyTreeService.deleteAll();
 		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+	
+	@PutMapping("/save/{id}")
+	public ResponseEntity<FamilyTreeDTO> save(@RequestBody List<PersonDTO> members, @PathVariable("id") Long id) {
+		FamilyTree familyTree = familyTreeService.save(members, id);
+		if (familyTree == null)
+			return new ResponseEntity<FamilyTreeDTO>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<FamilyTreeDTO>(new FamilyTreeDTO(familyTree), HttpStatus.OK);
+	}
+	
+	@GetMapping("/members/{id}")
+	public ResponseEntity<List<Person>> getMembers(@PathVariable("id") Long id) {
+		List<Person> members = familyTreeService.getMembers(id);
+		return new ResponseEntity<List<Person>>(members, HttpStatus.OK);
 	}
 }

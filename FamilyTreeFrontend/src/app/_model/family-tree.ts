@@ -5,6 +5,6 @@ export class FamilyTree {
     id: number;
 	name: string;
 	description: string;
-	members: Array<Person>;
+	members: Person[];
 	user: User;
 }

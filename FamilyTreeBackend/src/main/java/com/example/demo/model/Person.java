@@ -19,7 +19,7 @@ public class Person {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@Column(name = "gender", nullable = false)
+	@Column(name = "gender")
 	private Gender gender;
 	
 	@Column(name = "date", nullable = false)
@@ -28,7 +28,7 @@ public class Person {
 	@Column(name = "title")
 	private String title;
 	
-	@Column(name = "image")
+	@Column(name = "image", length=10485760)
 	private String image;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -118,6 +118,14 @@ public class Person {
 
 	public void setSpouse(Person spouse) {
 		this.spouse = spouse;
+	}
+
+	public FamilyTree getFamilyTree() {
+		return familyTree;
+	}
+
+	public void setFamilyTree(FamilyTree familyTree) {
+		this.familyTree = familyTree;
 	}
 
 	@Override

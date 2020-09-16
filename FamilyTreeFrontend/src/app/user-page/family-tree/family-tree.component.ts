@@ -1,7 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import OrgChart from "@balkangraph/orgchart.js";
 import { FamilyTree } from 'src/app/_model/family-tree';
+import { Person } from 'src/app/_model/person';
+import { FamilyTreeService } from 'src/app/_services/family-tree-service';
 import { ChartModel } from '../../_model/chart';
+import { PersonDTO } from 'src/app/_model/personDTO';
 
 @Component({
   selector: 'app-family-tree',
@@ -18,7 +21,7 @@ export class FamilyTreeComponent implements OnInit {
     @ViewChild('addToPartner') addToPartner: ElementRef;
     @ViewChild('addToChild') addToChild: ElementRef;
 
-    constructor() { }
+    constructor(private service: FamilyTreeService) { }
 
     charts: ChartModel[] = [];
     selectedTree: FamilyTree;
@@ -30,21 +33,13 @@ export class FamilyTreeComponent implements OnInit {
     partner: Boolean;
     edit: Boolean;
     isReadonly: Boolean;
+    persons: Person[] = [];
 
     ngOnInit(): void {
         var tree = localStorage.getItem('selectedTree');
         this.selectedTree = JSON.parse(tree);
-        this.charts = this.convertTreeToChart(this.selectedTree);
-        if (this.charts.length == 0) {
-            let model: ChartModel = new ChartModel();
-            model.id = 0;
-            model.name = "First person";
-            model.title = "Undefined";
-            model.date = "2020-";
-            model.img = "../../../assets/images/no_image.png";
-            this.charts.push(model);
-        }
-        this.drawTree(this.charts);
+        this.getMembers();
+        console.log(this.persons);
     }
 
     drawTree(charts: ChartModel[]): void {
@@ -153,6 +148,7 @@ export class FamilyTreeComponent implements OnInit {
             self.d.nativeElement.value = nodeData["date"];
             self.previewUrl = nodeData["img"];
             self.nodeIds = Number(node);
+            
         }
 
         chart.on('render-link', function(sender, args){
@@ -170,36 +166,37 @@ export class FamilyTreeComponent implements OnInit {
 
     }
 
-    convertTreeToChart(tree: FamilyTree): ChartModel[] {
+    convertTreeToChart(persons: Person[]): ChartModel[] {
+        console.log(persons.length);
         var chartModel: ChartModel[] = [];
-        for (let i = 0; i < tree.members.length; i++) {
+        for (let i = 0; i < persons.length; i++) {
             chartModel[i] = new ChartModel();
-            chartModel[i].id = tree.members[i].id;
-            chartModel[i].name = tree.members[i].name;
-            chartModel[i].img = tree.members[i].image;
+            chartModel[i].id = persons[i].id;
+            chartModel[i].name = persons[i].name;
+            chartModel[i].img = persons[i].image;
             if (chartModel[i].img == "") {
                 chartModel[i].img = "../../../assets/images/no_image.png";
             }
-            chartModel[i].title = tree.members[i].title;
-            chartModel[i].date = tree.members[i].date;
+            chartModel[i].title = persons[i].title;
+            chartModel[i].date = persons[i].date;
             chartModel[i].tags = [];
-            if (tree.members[i].mother != null && tree.members[i].father != null) {
-                if (tree.members[i].father.id < tree.members[i].mother.id) {
-                    chartModel[i].pid = tree.members[i].father.id;
-                    chartModel[i].ppid = tree.members[i].mother.id;
+            if (persons[i].mother != null && persons[i].father != null) {
+                if (persons[i].father.id < persons[i].mother.id) {
+                    chartModel[i].pid = persons[i].father.id;
+                    chartModel[i].ppid = persons[i].mother.id;
                 }
                 else {
-                    chartModel[i].ppid = tree.members[i].father.id;
-                    chartModel[i].pid = tree.members[i].mother.id;
+                    chartModel[i].ppid = persons[i].father.id;
+                    chartModel[i].pid = persons[i].mother.id;
                 }
             }
-            else if (tree.members[i].spouse != null) {
-                chartModel[i].pid = tree.members[i].spouse.id;
+            else if (persons[i].spouse != null) {
+                chartModel[i].pid = persons[i].spouse.id;
                 chartModel[i].tags[0] = "partner";
             }
             
             if (chartModel[i].date.substr(chartModel[i].date.length - 1) != "-") {
-                chartModel[i].tags[1] = "black";
+                chartModel[i].tags[chartModel[i].tags.length] = "black";
             }
 
         }
@@ -255,6 +252,7 @@ export class FamilyTreeComponent implements OnInit {
             this.name.nativeElement.value = "";
             this.title.nativeElement.value = "";
             this.date.nativeElement.value = "";
+            this.previewUrl = "../../../assets/images/no_image.png";
             this.charts.push(chartModel);
             this.nodeIds = 0;
             this.drawTree(this.charts);
@@ -290,6 +288,7 @@ export class FamilyTreeComponent implements OnInit {
             this.name.nativeElement.value = "";
             this.title.nativeElement.value = "";
             this.date.nativeElement.value = "";
+            this.previewUrl = "../../../assets/images/no_image.png";
             this.charts.push(chartModel);
             this.nodeIds = 0;
             this.drawTree(this.charts);
@@ -328,6 +327,7 @@ export class FamilyTreeComponent implements OnInit {
             chartModel.date = this.date.nativeElement.value;
             chartModel.pid = this.nodeIds;
             chartModel.img = this.previewUrl;
+            chartModel.tags = [];
             if (this.addToPartner.nativeElement.checked) {
                 for (let i: number = 0; i < this.charts.length; i++) {
                     if(this.charts[i].tags != null) {
@@ -355,6 +355,7 @@ export class FamilyTreeComponent implements OnInit {
             this.name.nativeElement.value = "";
             this.title.nativeElement.value = "";
             this.date.nativeElement.value = "";
+            this.previewUrl = "../../../assets/images/no_image.png";
 
             this.charts.push(chartModel);
             this.nodeIds = 0;
@@ -373,6 +374,7 @@ export class FamilyTreeComponent implements OnInit {
                 chartModel.date = this.date.nativeElement.value;
                 chartModel.pid = this.nodeIds;
                 chartModel.img = this.previewUrl;
+                chartModel.tags = [];
                 if (this.addToPartner.nativeElement.checked) {
                     for (let i: number = 0; i < this.charts.length; i++) {
                         if(this.charts[i].tags != null) {
@@ -400,6 +402,7 @@ export class FamilyTreeComponent implements OnInit {
                 this.name.nativeElement.value = "";
                 this.title.nativeElement.value = "";
                 this.date.nativeElement.value = "";
+                this.previewUrl = "../../../assets/images/no_image.png";
 
                 this.charts.push(chartModel);
                 this.nodeIds = 0;
@@ -462,6 +465,7 @@ export class FamilyTreeComponent implements OnInit {
             this.n.nativeElement.value = "";
             this.t.nativeElement.value = "";
             this.d.nativeElement.value = "";
+            this.previewUrl = "../../../assets/images/no_image.png";
 
             this.nodeIds = 0;
             this.drawTree(this.charts);
@@ -503,6 +507,7 @@ export class FamilyTreeComponent implements OnInit {
                 this.n.nativeElement.value = "";
                 this.t.nativeElement.value = "";
                 this.d.nativeElement.value = "";
+                this.previewUrl = "../../../assets/images/no_image.png";
                 this.nodeIds = 0;
                 this.drawTree(this.charts);
             }
@@ -527,6 +532,96 @@ export class FamilyTreeComponent implements OnInit {
         reader.onload = (_event) => { 
           this.previewUrl = reader.result;
         }
+    }
+
+    save(): void {
+        var tree = localStorage.getItem('selectedTree');
+        this.selectedTree = JSON.parse(tree);
+        let familytree: FamilyTree = new FamilyTree();
+        familytree.id = this.selectedTree.id;
+        familytree.name = this.selectedTree.name;
+        familytree.description = this.selectedTree.description;
+        familytree.user = this.selectedTree.user;
+        familytree.members = [];
+        console.log(this.charts);
+        let persons: PersonDTO[] = [];
+        let i = 0;
+        for (let p of this.charts) {
+            persons[i] = new PersonDTO();
+            persons[i].id = this.charts[i].id;
+            persons[i].name = this.charts[i].name;
+            persons[i].image = this.charts[i].img;
+            persons[i].title = this.charts[i].title;
+            persons[i].date = this.charts[i].date;
+            if (this.charts[i].tags != null) {
+                if (!this.charts[i].tags.includes('partner')) {
+                    let j = 0;
+                    for (let k of this.charts) {
+                        if (this.charts[i].pid == this.charts[j].id) {
+                            console.log('Usla: ' + this.charts[i].name + " " + this.charts[j].name);
+                            persons[i].fatherId = this.charts[j].id;
+                        }
+                        j = j + 1;
+                    }
+
+                    let k = 0;
+                    for (let q of this.charts) {
+                        console.log(this.charts[i].name + " " + this.charts[k].name);
+                        if (this.charts[i].ppid == this.charts[k].id) {
+                            persons[i].motherId = this.charts[k].id;
+                            console.log('Usla: ' + this.charts[k].name + " " + this.charts[k].name);
+                        }
+                        k = k + 1;
+                    }
+                }
+                else {
+                    let j = 0;
+                    for (let r of this.charts) {
+                        if (this.charts[i].pid == this.charts[j].id) {
+                            console.log('Usla: ' + this.charts[i].name + " " + this.charts[j].name);
+                            persons[i].spouseId= this.charts[j].id;
+                        }
+                        j = j + 1;
+                    }
+                }
+            
+                console.log(persons[i].motherId + " " + persons[i].fatherId + " " + persons[i].spouseId);
+            }
+            i = i + 1;
+        }
+        
+        this.service.saveFamilyTree(familytree, persons).subscribe(
+            (res:FamilyTree)=> {
+                alert('Saved');
+            },
+            err=>{
+                alert('Something went wrong');
+            }
+        )
+       
+    }
+
+    getMembers(): void {
+        this.service.getMembers(this.selectedTree.id).subscribe(
+            (res:Person[]) => {
+                this.persons = res;
+                this.charts = this.convertTreeToChart(this.persons);
+                if (this.charts.length == 0) {
+                    let model: ChartModel = new ChartModel();
+                    model.id = 0;
+                    model.name = "First person";
+                    model.title = "Undefined";
+                    model.date = "2020-";
+                    model.img = "../../../assets/images/no_image.png";
+                    this.charts.push(model);
+                }
+                this.drawTree(this.charts);
+            },
+            err => {
+                alert('Something went wrong');
+            }
+        )
+        
     }
 
     
