@@ -80,11 +80,14 @@ public class FamilyTreeService {
 	}
 
 	public FamilyTree save(List<ChartDTO> members, Long id) {
+		System.out.println("=============== SAVE ==============");
 		FamilyTree familyTree = familyTreeRepository.findById(id).orElse(null);
 		if (familyTree == null)
 			return null;
+		if (familyTree.getMembers() == null)
+			familyTree.setMembers(new ArrayList<Person>());
+		
 		familyTree.setMembers(new ArrayList<Person>());
-		System.out.println(members.size());
 		for (ChartDTO person : members) {
 			Person p = personRepository.findByFamilyTreeAndFamilyTreeId(familyTree, person.getId());
 			if (p == null) {
@@ -100,11 +103,7 @@ public class FamilyTreeService {
 		}
 		
 		for (ChartDTO person : members) {
-			System.out.println("####" + familyTree.getId() + " " + person.getId());
-			System.out.println("####" + " " + person.getPid());
-			System.out.println("####" + " " + person.getPpid());
 			Person p = personRepository.findByFamilyTreeAndFamilyTreeId(familyTree, person.getId());
-			System.out.println("####" + p.getName());
 			p.setName(person.getName());
 			p.setTitle(person.getTitle());
 			p.setDate(person.getDate());
@@ -131,7 +130,6 @@ public class FamilyTreeService {
 			
 			p.setImage(person.getImg());
 			p.setFamilyTree(familyTree);
-			System.out.println("## id: " + p.getId());
 			personRepository.save(p);
 			familyTree.getMembers().add(p);
 		}

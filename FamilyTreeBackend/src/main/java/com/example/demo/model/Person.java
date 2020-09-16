@@ -43,7 +43,7 @@ public class Person {
 	@Column(name = "spouse_id")
 	private Long spouseID;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
 	private FamilyTree familyTree;
 
 	public Person() {

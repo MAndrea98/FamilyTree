@@ -85,25 +85,25 @@ export class FamilyTreeComponent implements OnInit {
                 },
                 editing: { 
                     icon: editIcon,
-                    text: "Edit datas",
+                    text: "Edit data",
                     onClick: editDatas
                 },
                 child: { 
                     icon: addNewChildIcon,
-                    text: "Add new child",
+                    text: "Add a new child",
                     onClick: addNewChild
                 },
                 parent: {
                     icon: addParentIcon,
-                    text: "Add parent",
+                    text: "Add a parent",
                     onClick: addParent
                 },
                 partner: {
                     icon: addNewPartnerIcon,
-                    text: "Add new partner",
+                    text: "Add a new partner",
                     onClick: addNewPartner
                 },
-                remove: { text: "Remove" }
+                //remove: { text: "Remove" }
             },
             tags: {
                 black: {

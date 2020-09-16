@@ -8,4 +8,6 @@ import com.example.demo.model.Person;
 public interface PersonRepository extends JpaRepository<Person, Long>{
 
 	Person findByFamilyTreeAndFamilyTreeId(FamilyTree familyTree, Long familyTreeId);
+	
+	void deleteByFamilyTreeAndFamilyTreeId(FamilyTree familyTree, Long familyTreeId);
 }
