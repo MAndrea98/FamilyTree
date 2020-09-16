@@ -16,6 +16,9 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(name = "id_in_family_tree", nullable = false)
+	private Long familyTreeId;
+	
 	@Column(name = "name", nullable = false)
 	private String name;
 	
@@ -31,14 +34,14 @@ public class Person {
 	@Column(name = "image", length=10485760)
 	private String image;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Person father;
+	@Column(name = "father_id")
+	private Long fatherID;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Person mother;
+	@Column(name = "mother_id")
+	private Long motherID;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Person spouse;
+	@Column(name = "spouse_id")
+	private Long spouseID;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private FamilyTree familyTree;
@@ -54,6 +57,14 @@ public class Person {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getFamilyTreeId() {
+		return familyTreeId;
+	}
+
+	public void setFamilyTreeId(Long familyTreeId) {
+		this.familyTreeId = familyTreeId;
 	}
 
 	public String getName() {
@@ -96,28 +107,28 @@ public class Person {
 		this.image = image;
 	}
 
-	public Person getFather() {
-		return father;
+	public Long getFatherID() {
+		return fatherID;
 	}
 
-	public void setFather(Person father) {
-		this.father = father;
+	public void setFatherID(Long fatherID) {
+		this.fatherID = fatherID;
 	}
 
-	public Person getMother() {
-		return mother;
+	public Long getMotherID() {
+		return motherID;
 	}
 
-	public void setMother(Person mother) {
-		this.mother = mother;
+	public void setMotherID(Long motherID) {
+		this.motherID = motherID;
 	}
 
-	public Person getSpouse() {
-		return spouse;
+	public Long getSpouseID() {
+		return spouseID;
 	}
 
-	public void setSpouse(Person spouse) {
-		this.spouse = spouse;
+	public void setSpouseID(Long spouseID) {
+		this.spouseID = spouseID;
 	}
 
 	public FamilyTree getFamilyTree() {
@@ -130,8 +141,9 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return "Person [id=" + id + ", name=" + name + ", gender=" + gender + ", date=" + date + ", title="
-				+ title + ", image=" + image + ", father=" + father + ", mother=" + mother + ", spouse=" + spouse + "]";
+		return "Person [id=" + id + ", familyTreeId=" + familyTreeId + ", name=" + name + ", gender=" + gender
+				+ ", date=" + date + ", title=" + title + ", image=" + image + ", fatherID=" + fatherID + ", motherID="
+				+ motherID + ", spouseID=" + spouseID + ", familyTree=" + familyTree + "]";
 	}
 
 	

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.ChartDTO;
 import com.example.demo.dto.FamilyTreeDTO;
 import com.example.demo.dto.PersonDTO;
 import com.example.demo.model.FamilyTree;
@@ -35,6 +36,12 @@ public class FamilyTreeController {
 		return new ResponseEntity<FamilyTreeDTO>(new FamilyTreeDTO(familyTree), HttpStatus.OK);
 	}
 	
+	@PostMapping("/person/{id}")
+	public ResponseEntity<FamilyTreeDTO> addFirst(@PathVariable("id") Long id) {
+		FamilyTree familyTree = familyTreeService.addFirstPerson(id);
+		return new ResponseEntity<FamilyTreeDTO>(new FamilyTreeDTO(familyTree), HttpStatus.OK);
+	}
+	
 	@GetMapping
 	public ResponseEntity<List<FamilyTree>> getAllMyTrees() {
 		List<FamilyTree> trees = familyTreeService.getAllMyTrees();
@@ -45,10 +52,8 @@ public class FamilyTreeController {
 	
 	@PutMapping
 	public ResponseEntity<FamilyTreeDTO> editFamilyTree(@RequestBody FamilyTreeDTO familyTreeDTO) {
-		System.out.println("#####");
 		FamilyTree familyTree = familyTreeService.editFamilyTree(familyTreeDTO);
 		if (familyTree == null) {
-			System.out.println("####");
 			return new ResponseEntity<FamilyTreeDTO>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<FamilyTreeDTO>(new FamilyTreeDTO(familyTree), HttpStatus.OK);
@@ -67,7 +72,8 @@ public class FamilyTreeController {
 	}
 	
 	@PutMapping("/save/{id}")
-	public ResponseEntity<FamilyTreeDTO> save(@RequestBody List<PersonDTO> members, @PathVariable("id") Long id) {
+	public ResponseEntity<FamilyTreeDTO> save(@RequestBody List<ChartDTO> members, @PathVariable("id") Long id) {
+		System.out.println(members);
 		FamilyTree familyTree = familyTreeService.save(members, id);
 		if (familyTree == null)
 			return new ResponseEntity<FamilyTreeDTO>(HttpStatus.BAD_REQUEST);

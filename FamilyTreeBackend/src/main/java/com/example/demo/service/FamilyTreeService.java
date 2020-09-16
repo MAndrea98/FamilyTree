@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.ChartDTO;
 import com.example.demo.dto.FamilyTreeDTO;
-import com.example.demo.dto.PersonDTO;
 import com.example.demo.model.FamilyTree;
 import com.example.demo.model.LogedUser;
 import com.example.demo.model.Person;
@@ -37,15 +37,27 @@ public class FamilyTreeService {
 		return familyTreeRepository.save(familyTree);
 	}
 	
+	public FamilyTree addFirstPerson(Long id) {
+		FamilyTree familyTree = familyTreeRepository.findById(id).orElse(null);
+		Person person = new Person();
+		person.setName("Undefined");
+		person.setTitle("Undefined");
+		person.setDate("2020-");
+		person.setFamilyTreeId(1L);
+		person.setFamilyTree(familyTree);
+		person.setImage("../../../assets/images/no_image.png");
+		familyTree.setMembers(new ArrayList<Person>());
+		familyTree.getMembers().add(person);
+		return familyTreeRepository.save(familyTree);
+	}
+	
 	public FamilyTree editFamilyTree(FamilyTreeDTO familyTreeDTO) {
 		FamilyTree familyTree = familyTreeRepository.findById(familyTreeDTO.getId()).orElse(null);
 		if (familyTree == null) {
-			System.out.println("1");
 			return null;
 		}
 		
 		if (!familyTree.getUser().getUsername().equals(LogedUser.getInstance().getUser().getUsername())) {
-			System.out.println("2");
 			return null;
 		}
 		
@@ -62,79 +74,64 @@ public class FamilyTreeService {
 		familyTreeRepository.deleteByUser(LogedUser.getInstance().getUser());
 	}
 
-	public FamilyTree save(FamilyTreeDTO familyTreeDTO) {
-		FamilyTree familyTree = familyTreeRepository.findById(familyTreeDTO.getId()).orElse(null);
-		if (familyTree == null)
-			return null;
-		familyTree.setMembers(new ArrayList<Person>());
-		System.out.println(familyTree.getMembers().size());
-		for (Person person : familyTreeDTO.getMembers()) {
-			Person p = personRepository.findById(person.getId()).orElse(null);
-			if (p == null)
-				p = new Person();
-			
-			p.setName(person.getName());
-			p.setTitle(person.getTitle());
-			p.setDate(person.getDate());
-			p.setFather(person.getFather());
-			p.setMother(person.getMother());
-			p.setSpouse(person.getSpouse());
-			p.setImage(person.getImage());
-			p.setFamilyTree(familyTree);
-			personRepository.save(p);
-			familyTree.getMembers().add(p);
-		}
-		return familyTreeRepository.save(familyTree);
-	}
-
 	public List<Person> getMembers(Long id) {
 		FamilyTree familyTree = familyTreeRepository.findById(id).orElse(null);
 		return familyTree.getMembers();
 	}
 
-	public FamilyTree save(List<PersonDTO> members, Long id) {
+	public FamilyTree save(List<ChartDTO> members, Long id) {
 		FamilyTree familyTree = familyTreeRepository.findById(id).orElse(null);
 		if (familyTree == null)
 			return null;
 		familyTree.setMembers(new ArrayList<Person>());
 		System.out.println(members.size());
-		for (PersonDTO person : members) {
-			Person p = personRepository.findById(person.getId()).orElse(null);
+		for (ChartDTO person : members) {
+			Person p = personRepository.findByFamilyTreeAndFamilyTreeId(familyTree, person.getId());
 			if (p == null) {
-				System.out.println("null");
 				p = new Person();
+				p.setFamilyTreeId(person.getId());
+				p.setName(person.getName());
+				p.setTitle(person.getTitle());
+				p.setDate(person.getDate());
+				p.setFamilyTree(familyTree);
+				personRepository.save(p);
 			}
 			
+		}
+		
+		for (ChartDTO person : members) {
+			System.out.println("####" + familyTree.getId() + " " + person.getId());
+			System.out.println("####" + " " + person.getPid());
+			System.out.println("####" + " " + person.getPpid());
+			Person p = personRepository.findByFamilyTreeAndFamilyTreeId(familyTree, person.getId());
+			System.out.println("####" + p.getName());
 			p.setName(person.getName());
 			p.setTitle(person.getTitle());
 			p.setDate(person.getDate());
 			
-			if (person.getFatherId() != null) {
-				Person father = personRepository.findById(person.getFatherId()).orElse(null);
-				p.setFather(father);
+			if (person.getTags().contains("partner")) {
+				p.setSpouseID(person.getPid());
 			}
 			else {
-				p.setFather(null);
+				if (person.getPid() != null) {
+					Person father = personRepository.findByFamilyTreeAndFamilyTreeId(familyTree, person.getPid());
+					p.setFatherID(father.getFamilyTreeId());
+				}
+				else {
+					p.setFatherID(null);
+				}
+				if (person.getPpid() != null) {
+					Person mother = personRepository.findByFamilyTreeAndFamilyTreeId(familyTree, person.getPpid());
+					p.setMotherID(mother.getFamilyTreeId());
+				}
+				else {
+					p.setMotherID(null);
+				}
 			}
 			
-			if (person.getMotherId() != null) {
-				Person mother = personRepository.findById(person.getMotherId()).orElse(null);
-				p.setMother(mother);
-			}
-			else {
-				p.setMother(null);
-			}
-			
-			if (person.getSpouseId() != null) {
-				Person spouse = personRepository.findById(person.getSpouseId()).orElse(null);
-				p.setSpouse(spouse);
-			}
-			else {
-				p.setSpouse(null);
-			}
-			
-			p.setImage(person.getImage());
+			p.setImage(person.getImg());
 			p.setFamilyTree(familyTree);
+			System.out.println("## id: " + p.getId());
 			personRepository.save(p);
 			familyTree.getMembers().add(p);
 		}

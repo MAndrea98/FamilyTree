@@ -39,13 +39,16 @@
                     <input class="w3-input w3-border" type="text" placeholder="Enter title" #title>
                     <label><b>Date</b></label>
                     <input class="w3-input w3-border" type="text" placeholder="Enter date like: 1900-1978 or 1990-" #date>
-                    <input type="checkbox" #addToPartner [hidden] = "partner"><span class="w3-padding w3-hide-small" [hidden] = "partner">Add also to partner</span>
-                    <input type="checkbox" #addToChild [hidden] = "!partner"><span class="w3-padding w3-hide-small" [hidden] = "!partner">Add also to child</span>
-                    <div [hidden]="!partner">
+                    <input type="checkbox" #addToPartner [hidden] = "partner || parent"><span class="w3-padding w3-hide-small" [hidden] = "partner || parent" checked>Add also to partner</span>
+                    <input type="checkbox" #addToChild [hidden] = "!partner || parent"><span class="w3-padding w3-hide-small" [hidden] = "!partner || parent" checked>Add also to child</span>
+                    <div [hidden]="!partner || parent">
                         <a class="w3-button w3-block w3-green w3-section w3-padding" (click)="addPartner()" >Add partner</a>
                     </div>
-                    <div [hidden]="partner">
+                    <div [hidden]="partner || parent">
                         <a class="w3-button w3-block w3-green w3-section w3-padding" (click)="addChild()" >Add child</a>
+                    </div>
+                    <div [hidden]="!parent">
+                        <a class="w3-button w3-block w3-green w3-section w3-padding" (click)="addParent()" >Add parent</a>
                     </div>
                 </div>
             </div>
