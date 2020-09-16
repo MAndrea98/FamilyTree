@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { FamilyTree } from '../_model/family-tree';
 import { Person } from '../_model/person';
 import { PersonDTO } from '../_model/personDTO';
+import { ChartModel } from '../_model/chart';
 
 @Injectable({
     providedIn: 'root'
@@ -34,11 +35,15 @@ export class FamilyTreeService {
         return this.http.delete("http://localhost:8080/familyTree", { responseType: 'text' });
     }
 
-    public saveFamilyTree(tree: FamilyTree, persons: PersonDTO[]): Observable<FamilyTree> {
-        return this.http.put<FamilyTree>("http://localhost:8080/familyTree/save/" + tree.id, persons, this.httpOptions);
+    public saveFamilyTree(tree: FamilyTree, charts: ChartModel[]): Observable<FamilyTree> {
+        return this.http.put<FamilyTree>("http://localhost:8080/familyTree/save/" + tree.id, charts, this.httpOptions);
     }
 
     public getMembers(id: number): Observable<Person[]> {
         return this.http.get<Person[]>("http://localhost:8080/familyTree/members/" + id, this.httpOptions);
+    }
+
+    public addFirstPerson(id:number): Observable<Person> {
+        return this.http.post<Person>("http://localhost:8080/familyTree/person/" + id, this.httpOptions);
     }
 }

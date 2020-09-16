@@ -70,10 +70,17 @@ export class TreesComponent implements OnInit {
     ft.description = this.newFamilyDescription.nativeElement.value;
     this.treeService.addNewFamilyTree(ft).subscribe(
       (res: FamilyTree)=> {
-        this.newFamilyHidden = true;
-        this.newFamilyName.nativeElement.value = "";
-        this.newFamilyDescription.nativeElement.value = "";
-        this.getAllMyTrees();
+        this.treeService.addFirstPerson(res.id).subscribe(
+          res1=> {
+            this.newFamilyHidden = true;
+          this.newFamilyName.nativeElement.value = "";
+          this.newFamilyDescription.nativeElement.value = "";
+          this.getAllMyTrees();
+          },
+          err=> {
+            alert('Something went wrong');
+          }
+        )
       },
       err=> {
         console.log(err);
