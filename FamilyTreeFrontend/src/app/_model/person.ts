@@ -1,14 +1,15 @@
+import { FamilyTree } from './family-tree';
 import { Gender } from "./gender.enum";
 
 export class Person {
-    id:number;
+    familyTreeId:number;
     name: string;
     gender: Gender;
     date:string;
     title: string;
     image: string;
-    father: Person;
-    mother: Person;
-    spouse: Person;
-    familyTree: Person;
+    fatherID: number;
+    motherID: number;
+    spouseID: number;
+    familyTree: FamilyTree;
 }

@@ -32,6 +32,7 @@ export class FamilyTreeComponent implements OnInit {
     uploadedFilePath: string = null;
     partner: Boolean;
     edit: Boolean;
+    parent: Boolean;
     isReadonly: Boolean;
     persons: Person[] = [];
 
@@ -53,6 +54,7 @@ export class FamilyTreeComponent implements OnInit {
         var editIcon = '<i class="fas fa-user-edit"></i>';
         var addNewPartnerIcon = '<i class="fa fa-venus-mars fa-fw"></i>';
         var addNewChildIcon = '<i class="fa fa-child fa-fw"></i>';
+        var addParentIcon = '<i class="fa fa-user-tie fa-fw"></i>';
         OrgChart.templates.family_template_black = Object.assign({}, OrgChart.templates.family_template);
         OrgChart.templates.family_template_black.node = '<svg width="250" height="120"><rect width="250" height="120" style="fill:rgb(220,220,220);stroke-width:3;stroke:rgb(0,0,0)" /></svg>';
 
@@ -90,6 +92,11 @@ export class FamilyTreeComponent implements OnInit {
                     text: "Add new child",
                     onClick: addNewChild
                 },
+                parent: {
+                    icon: addParentIcon,
+                    text: "Add parent",
+                    onClick: addParent
+                },
                 partner: {
                     icon: addNewPartnerIcon,
                     text: "Add new partner",
@@ -111,6 +118,18 @@ export class FamilyTreeComponent implements OnInit {
             self.nodeIds = Number(node);
             self.partner = true;
             self.edit = false;
+            self.parent = false;
+            self.previewUrl = "../../../assets/images/no_image.png";
+        }
+
+        function addParent(nodeId) {
+            document.getElementById('id01').style.display='block';
+            var nodeData = chart.get(nodeId);
+            var node = nodeData["id"];
+            self.nodeIds = Number(node);
+            self.partner = false;
+            self.edit = false;
+            self.parent = true;
             self.previewUrl = "../../../assets/images/no_image.png";
         }
 
@@ -121,6 +140,7 @@ export class FamilyTreeComponent implements OnInit {
             self.nodeIds = Number(node);
             self.partner = false;
             self.edit = false;
+            self.parent = false;
             self.previewUrl = "../../../assets/images/no_image.png";
         }
         
@@ -171,7 +191,7 @@ export class FamilyTreeComponent implements OnInit {
         var chartModel: ChartModel[] = [];
         for (let i = 0; i < persons.length; i++) {
             chartModel[i] = new ChartModel();
-            chartModel[i].id = persons[i].id;
+            chartModel[i].id = persons[i].familyTreeId;
             chartModel[i].name = persons[i].name;
             chartModel[i].img = persons[i].image;
             if (chartModel[i].img == "") {
@@ -180,18 +200,24 @@ export class FamilyTreeComponent implements OnInit {
             chartModel[i].title = persons[i].title;
             chartModel[i].date = persons[i].date;
             chartModel[i].tags = [];
-            if (persons[i].mother != null && persons[i].father != null) {
-                if (persons[i].father.id < persons[i].mother.id) {
-                    chartModel[i].pid = persons[i].father.id;
-                    chartModel[i].ppid = persons[i].mother.id;
+            if (persons[i].motherID != null && persons[i].fatherID != null) {
+                if (persons[i].fatherID < persons[i].motherID) {
+                    chartModel[i].pid = persons[i].fatherID
+                    chartModel[i].ppid = persons[i].motherID;
                 }
                 else {
-                    chartModel[i].ppid = persons[i].father.id;
-                    chartModel[i].pid = persons[i].mother.id;
+                    chartModel[i].ppid = persons[i].fatherID;
+                    chartModel[i].pid = persons[i].motherID;
                 }
             }
-            else if (persons[i].spouse != null) {
-                chartModel[i].pid = persons[i].spouse.id;
+            else if (persons[i].motherID != null && persons[i].fatherID == null) {
+                chartModel[i].pid = persons[i].motherID;
+            }
+            else if (persons[i].motherID == null && persons[i].fatherID != null) {
+                chartModel[i].pid = persons[i].fatherID
+            }
+            else if (persons[i].spouseID != null) {
+                chartModel[i].pid = persons[i].spouseID;
                 chartModel[i].tags[0] = "partner";
             }
             
@@ -411,6 +437,111 @@ export class FamilyTreeComponent implements OnInit {
         }
     }
 
+    addParent(): void {
+        this.name.nativeElement.style.background = "rgba(255,255,255,1)";
+        this.name.nativeElement.style.color = "rgba(0,0,0,1)";
+        this.date.nativeElement.style.background = "rgba(255,255,255,1)";
+        this.date.nativeElement.style.color = "rgba(0,0,0,1)";
+
+        var date: string = this.date.nativeElement.value;
+        var splitter: string[] = date.split("-");
+        if (!Number(splitter[0]) || (splitter[1] != "" && !Number(splitter[1])) ||
+            (Number(splitter[0]) > Number(splitter[1]) && splitter[1] != "")) {
+            this.date.nativeElement.style.background = "rgba(255,0,0,.6)";
+            this.date.nativeElement.style.color = "rgba(255,255,255,1)";
+            return;
+        }
+        if (this.name.nativeElement.value == "") {
+            this.name.nativeElement.style.background = "rgba(255,0,0,.6)";
+            this.name.nativeElement.style.color = "rgba(255,255,255,1)";
+            return;
+        }
+        if(this.fileData == null) {
+            this.previewUrl = "../../../assets/images/no_image.png";
+            document.getElementById('id01').style.display='none';
+            let chartModel: ChartModel = new ChartModel();
+            chartModel.id = this.charts.length + 1;
+            chartModel.name = this.name.nativeElement.value;
+            chartModel.title = this.title.nativeElement.value;
+            chartModel.date = this.date.nativeElement.value;
+            chartModel.img = this.previewUrl;
+            chartModel.tags = [];
+            for (let i: number = 0; i < this.charts.length; i++) {
+                if (this.charts[i].tags !=null) {
+                    if (this.charts[i].id == this.nodeIds && !this.charts[i].tags.includes('partner')) {
+                        this.charts[i].pid = chartModel.id;
+                        console.log(this.charts[i]);
+                    }
+                }
+                else {
+                    if (this.charts[i].id == this.nodeIds) {
+                        this.charts[i].pid = chartModel.id;
+                        console.log(this.charts[i]);
+                    }
+                }
+            }
+            
+            if (chartModel.date.substr(chartModel.date.length - 1) != "-") {
+                if (chartModel.tags == null)
+                    chartModel.tags = [];
+                chartModel.tags[chartModel.tags.length] = "black";
+            }
+            this.name.nativeElement.value = "";
+            this.title.nativeElement.value = "";
+            this.date.nativeElement.value = "";
+            this.previewUrl = "../../../assets/images/no_image.png";
+
+            this.charts.push(chartModel);
+            console.log(this.charts);
+            this.nodeIds = 0;
+            this.drawTree(this.charts);
+        }
+        else {
+            var reader = new FileReader();      
+            reader.readAsDataURL(this.fileData); 
+            reader.onload = (_event) => { 
+                document.getElementById('id01').style.display='none';
+                document.getElementById('id01').style.display='none';
+                let chartModel: ChartModel = new ChartModel();
+                chartModel.id = this.charts.length + 1;
+                chartModel.name = this.name.nativeElement.value;
+                chartModel.title = this.title.nativeElement.value;
+                chartModel.date = this.date.nativeElement.value;
+                chartModel.img = this.previewUrl;
+                chartModel.tags = [];
+                for (let i: number = 0; i < this.charts.length; i++) {
+                    if (this.charts[i].tags !=null) {
+                        if (this.charts[i].id == this.nodeIds && !this.charts[i].tags.includes('partner')) {
+                            this.charts[i].pid = chartModel.id;
+                            console.log(this.charts[i]);
+                        }
+                    }
+                    else {
+                        if (this.charts[i].id == this.nodeIds) {
+                            this.charts[i].pid = chartModel.id;
+                            console.log(this.charts[i]);
+                        }
+                    }
+                }
+                
+                if (chartModel.date.substr(chartModel.date.length - 1) != "-") {
+                    if (chartModel.tags == null)
+                        chartModel.tags = [];
+                    chartModel.tags[chartModel.tags.length] = "black";
+                }
+                this.name.nativeElement.value = "";
+                this.title.nativeElement.value = "";
+                this.date.nativeElement.value = "";
+                this.previewUrl = "../../../assets/images/no_image.png";
+
+                this.charts.push(chartModel);
+                console.log(this.charts);
+                this.nodeIds = 0;
+                this.drawTree(this.charts);
+            }
+        }
+    }
+
     editing(): void {
         this.n.nativeElement.style.background = "rgba(255,255,255,1)";
         this.n.nativeElement.style.color = "rgba(0,0,0,1)";
@@ -544,7 +675,7 @@ export class FamilyTreeComponent implements OnInit {
         familytree.user = this.selectedTree.user;
         familytree.members = [];
         console.log(this.charts);
-        let persons: PersonDTO[] = [];
+        /*let persons: PersonDTO[] = [];
         let i = 0;
         for (let p of this.charts) {
             persons[i] = new PersonDTO();
@@ -553,11 +684,14 @@ export class FamilyTreeComponent implements OnInit {
             persons[i].image = this.charts[i].img;
             persons[i].title = this.charts[i].title;
             persons[i].date = this.charts[i].date;
+            console.log("pid " + this.charts[i].pid);
+            let pid:number = this.charts[i].pid;
             if (this.charts[i].tags != null) {
                 if (!this.charts[i].tags.includes('partner')) {
                     let j = 0;
                     for (let k of this.charts) {
-                        if (this.charts[i].pid == this.charts[j].id) {
+                        console.log(pid + " " + this.charts[j].id);
+                        if (pid == this.charts[j].id) {
                             console.log('Usla: ' + this.charts[i].name + " " + this.charts[j].name);
                             persons[i].fatherId = this.charts[j].id;
                         }
@@ -584,15 +718,16 @@ export class FamilyTreeComponent implements OnInit {
                         j = j + 1;
                     }
                 }
-            
-                console.log(persons[i].motherId + " " + persons[i].fatherId + " " + persons[i].spouseId);
             }
             i = i + 1;
         }
-        
-        this.service.saveFamilyTree(familytree, persons).subscribe(
+
+        console.log(persons);
+        */
+        this.service.saveFamilyTree(familytree, this.charts).subscribe(
             (res:FamilyTree)=> {
                 alert('Saved');
+                localStorage.setItem('selectedTree', JSON.stringify(res));
             },
             err=>{
                 alert('Something went wrong');
@@ -606,7 +741,7 @@ export class FamilyTreeComponent implements OnInit {
             (res:Person[]) => {
                 this.persons = res;
                 this.charts = this.convertTreeToChart(this.persons);
-                if (this.charts.length == 0) {
+                /*if (this.charts.length == 0) {
                     let model: ChartModel = new ChartModel();
                     model.id = 0;
                     model.name = "First person";
@@ -614,7 +749,8 @@ export class FamilyTreeComponent implements OnInit {
                     model.date = "2020-";
                     model.img = "../../../assets/images/no_image.png";
                     this.charts.push(model);
-                }
+                }*/
+                console.log(this.charts);
                 this.drawTree(this.charts);
             },
             err => {
