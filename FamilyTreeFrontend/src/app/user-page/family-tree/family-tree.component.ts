@@ -65,6 +65,7 @@ export class FamilyTreeComponent implements OnInit {
             siblingSeparation: 200,
             orientation: OrgChart.orientation.top,
             nodeMouseClick: OrgChart.action.none,
+            enableDragDrop: true,
             menu: {
                 pdf: { text: "Export PDF" },
                 png: { text: "Export PNG" },
@@ -102,8 +103,12 @@ export class FamilyTreeComponent implements OnInit {
                     icon: addNewPartnerIcon,
                     text: "Add a new partner",
                     onClick: addNewPartner
-                },
-                //remove: { text: "Remove" }
+                }/*,
+                removeNod: { 
+                    icon:addNewChildIcon,
+                    text: "Remove",
+                    onClick: removeNodes 
+                }*/
             },
             tags: {
                 black: {
@@ -112,6 +117,18 @@ export class FamilyTreeComponent implements OnInit {
             }
         });
         var self = this;
+
+        function removeNodes(nodeId) {
+            let fireEvent: boolean = false;
+            console.log(fireEvent);
+            chart.removeNode(nodeId, callback, fireEvent);
+            console.log(fireEvent);
+        }
+
+        function callback() {
+           
+        }
+
         function addNewPartner(nodeId) {
             document.getElementById('id01').style.display='block';
             var nodeData = chart.get(nodeId);
@@ -501,7 +518,7 @@ export class FamilyTreeComponent implements OnInit {
             var reader = new FileReader();      
             reader.readAsDataURL(this.fileData); 
             reader.onload = (_event) => { 
-                document.getElementById('id01').style.display='none';
+                this.previewUrl = reader.result;
                 document.getElementById('id01').style.display='none';
                 let chartModel: ChartModel = new ChartModel();
                 chartModel.id = this.charts.length + 1;
