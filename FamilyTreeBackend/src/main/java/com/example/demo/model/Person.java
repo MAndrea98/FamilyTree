@@ -22,9 +22,6 @@ public class Person {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@Column(name = "gender")
-	private Gender gender;
-	
 	@Column(name = "date", nullable = false)
 	private String date;
 	
@@ -73,14 +70,6 @@ public class Person {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Gender getGender() {
-		return gender;
-	}
-
-	public void setGender(Gender gender) {
-		this.gender = gender;
 	}
 
 	public String getDate() {
@@ -141,9 +130,9 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return "Person [id=" + id + ", familyTreeId=" + familyTreeId + ", name=" + name + ", gender=" + gender
-				+ ", date=" + date + ", title=" + title + ", image=" + image + ", fatherID=" + fatherID + ", motherID="
-				+ motherID + ", spouseID=" + spouseID + ", familyTree=" + familyTree + "]";
+		return "Person [id=" + id + ", familyTreeId=" + familyTreeId + ", name=" + name + ", date=" + date + ", title="
+				+ title + ", image=" + image + ", fatherID=" + fatherID + ", motherID=" + motherID + ", spouseID="
+				+ spouseID + ", familyTree=" + familyTree + "]";
 	}
 
 	
